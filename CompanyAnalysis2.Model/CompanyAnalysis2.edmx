@@ -1,0 +1,851 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CompanyAnalysis2Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="NextReportDate" Type="date" />
+          <Property Name="Currency" Type="nchar" MaxLength="10" />
+          <Property Name="GoogleFinanceSymbol" Type="nvarchar(max)" />
+          <Property Name="Hidden" Type="bit" Nullable="false" />
+          <Property Name="CEO" Type="nvarchar(max)" />
+          <Property Name="CreatedByUserId" Type="int" />
+        </EntityType>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="PeroidId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Revenue" Type="float" />
+          <Property Name="NetIncome" Type="float" />
+          <Property Name="Assets" Type="float" />
+          <Property Name="Equity" Type="float" />
+          <Property Name="Timestamp" Type="datetime" />
+        </EntityType>
+        <EntityType Name="FinancialIndicator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PeriodId" Type="int" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Revenue" Type="float" />
+          <Property Name="NetIncome" Type="float" />
+          <Property Name="Assets" Type="float" />
+          <Property Name="Equity" Type="float" />
+          <Property Name="ProfitMargin" Type="float" />
+          <Property Name="Solidity" Type="float" />
+          <Property Name="NetIncomeTTM" Type="float" />
+          <Property Name="RevenueTTM" Type="float" />
+          <Property Name="ProfitMarginTTM" Type="float" />
+          <Property Name="PeTTM" Type="float" />
+          <Property Name="ReturnOnAssetsTTM" Type="float" />
+          <Property Name="ReturnOnEquityTTM" Type="float" />
+          <Property Name="EqutiyGrowthTTM" Type="float" />
+          <Property Name="NetIncomeGrowthTTM" Type="float" />
+          <Property Name="RevenueGrowthTTM" Type="float" />
+          <Property Name="InvestmentGradeTTM" Type="float" />
+          <Property Name="MarketCap" Type="float" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Year" Type="int" Nullable="false" />
+          <Property Name="Quarter" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="StartDate" Type="date" />
+          <Property Name="EndDate" Type="date" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PeriodId" Type="int" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="Revenue" Type="float" />
+          <Property Name="NetIncome" Type="float" />
+          <Property Name="Assets" Type="float" />
+          <Property Name="Equity" Type="float" />
+          <Property Name="CEO" Type="nvarchar(max)" />
+          <Property Name="Overwrite" Type="bit" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="int" />
+        </EntityType>
+        <EntityType Name="StaredCompany">
+          <Key>
+            <PropertyRef Name="CompanyId" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="CompanyId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StockQuote">
+          <Key>
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="StockId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="NumberOfSharesOutstanding" Type="bigint" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar(max)" />
+          <Property Name="LastName" Type="nvarchar(max)" />
+          <Property Name="MobilePhone" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="UserSetting">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Value" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_Estimate_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estimate_Period">
+          <End Role="Period" Type="Self.Period" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="PeroidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estimate_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Estimate" Type="Self.Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FinancialIndicator_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="FinancialIndicator" Type="Self.FinancialIndicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FinancialIndicator">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FinancialIndicator_Period">
+          <End Role="Period" Type="Self.Period" Multiplicity="1" />
+          <End Role="FinancialIndicator" Type="Self.FinancialIndicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FinancialIndicator">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CreatedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reports_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reports_Periods">
+          <End Role="Period" Type="Self.Period" Multiplicity="0..1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaredCompany_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="StaredCompany" Type="Self.StaredCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StaredCompany">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StaredCompany_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="StaredCompany" Type="Self.StaredCompany" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StaredCompany">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stock_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockQuote_Stock">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="StockQuote" Type="Self.StockQuote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockQuote">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSetting_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserSetting" Type="Self.UserSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSetting">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CompanyAnalysis2ModelStoreContainer">
+          <EntitySet Name="Company" EntityType="Self.Company" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Estimate" EntityType="Self.Estimate" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FinancialIndicator" EntityType="Self.FinancialIndicator" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Period" EntityType="Self.Period" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StaredCompany" EntityType="Self.StaredCompany" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Stock" EntityType="Self.Stock" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StockQuote" EntityType="Self.StockQuote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSetting" EntityType="Self.UserSetting" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Estimate_Company" Association="Self.FK_Estimate_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estimate_Period" Association="Self.FK_Estimate_Period">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estimate_User" Association="Self.FK_Estimate_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Estimate" EntitySet="Estimate" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FinancialIndicator_Company" Association="Self.FK_FinancialIndicator_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="FinancialIndicator" EntitySet="FinancialIndicator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FinancialIndicator_Period" Association="Self.FK_FinancialIndicator_Period">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="FinancialIndicator" EntitySet="FinancialIndicator" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reports_Company" Association="Self.FK_Reports_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reports_Periods" Association="Self.FK_Reports_Periods">
+            <End Role="Period" EntitySet="Period" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaredCompany_Company" Association="Self.FK_StaredCompany_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="StaredCompany" EntitySet="StaredCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StaredCompany_User" Association="Self.FK_StaredCompany_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="StaredCompany" EntitySet="StaredCompany" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stock_Company" Association="Self.FK_Stock_Company">
+            <End Role="Company" EntitySet="Company" />
+            <End Role="Stock" EntitySet="Stock" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockQuote_Stock" Association="Self.FK_StockQuote_Stock">
+            <End Role="Stock" EntitySet="Stock" />
+            <End Role="StockQuote" EntitySet="StockQuote" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSetting_User" Association="Self.FK_UserSetting_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="UserSetting" EntitySet="UserSetting" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CompanyAnalysis2Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Company">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NextReportDate" Type="DateTime" Precision="0" />
+          <Property Name="Currency" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="GoogleFinanceSymbol" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Hidden" Type="Boolean" Nullable="false" />
+          <Property Name="CEO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CreatedByUserId" Type="Int32" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Reports_Company" FromRole="Company" ToRole="Report" />
+          <NavigationProperty Name="Stocks" Relationship="Self.FK_Stock_Company" FromRole="Company" ToRole="Stock" />
+          <NavigationProperty Name="Users" Relationship="Self.StaredCompany" FromRole="Company" ToRole="User" />
+          <NavigationProperty Name="Estimates" Relationship="CompanyAnalysis2Model.FK_Estimate_Company" FromRole="Company" ToRole="Estimate" />
+          <NavigationProperty Name="FinancialIndicators" Relationship="CompanyAnalysis2Model.FK_FinancialIndicator_Company" FromRole="Company" ToRole="FinancialIndicator" />
+        </EntityType>
+        <EntityType Name="Period">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Year" Type="Int32" Nullable="false" />
+          <Property Name="Quarter" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StartDate" Type="DateTime" Precision="0" />
+          <Property Name="EndDate" Type="DateTime" Precision="0" />
+          <NavigationProperty Name="Reports" Relationship="Self.FK_Reports_Periods" FromRole="Period" ToRole="Report" />
+          <NavigationProperty Name="Estimates" Relationship="CompanyAnalysis2Model.FK_Estimate_Period" FromRole="Period" ToRole="Estimate" />
+          <NavigationProperty Name="FinancialIndicators" Relationship="CompanyAnalysis2Model.FK_FinancialIndicator_Period" FromRole="Period" ToRole="FinancialIndicator" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PeriodId" Type="Int32" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="Revenue" Type="Double" />
+          <Property Name="NetIncome" Type="Double" />
+          <Property Name="Assets" Type="Double" />
+          <Property Name="Equity" Type="Double" />
+          <Property Name="CEO" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Overwrite" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedByUserId" Type="Int32" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Reports_Company" FromRole="Report" ToRole="Company" />
+          <NavigationProperty Name="Period" Relationship="Self.FK_Reports_Periods" FromRole="Report" ToRole="Period" />
+          <NavigationProperty Name="CreatedBy" Relationship="Self.FK_Report_User" FromRole="Report" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Stock">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Company" Relationship="Self.FK_Stock_Company" FromRole="Stock" ToRole="Company" />
+          <NavigationProperty Name="StockQuotes" Relationship="Self.FK_StockQuote_Stock" FromRole="Stock" ToRole="StockQuote" />
+        </EntityType>
+        <EntityType Name="StockQuote">
+          <Key>
+            <PropertyRef Name="Date" />
+            <PropertyRef Name="StockId" />
+          </Key>
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="StockId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="NumberOfSharesOutstanding" Type="Int64" />
+          <NavigationProperty Name="Stock" Relationship="Self.FK_StockQuote_Stock" FromRole="StockQuote" ToRole="Stock" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="CreatedReports" Relationship="Self.FK_Report_User" FromRole="User" ToRole="Report" />
+          <NavigationProperty Name="UserSettings" Relationship="Self.FK_UserSetting_User" FromRole="User" ToRole="UserSetting" />
+          <NavigationProperty Name="Companies" Relationship="Self.StaredCompany" FromRole="User" ToRole="Company" />
+          <NavigationProperty Name="Estimates" Relationship="CompanyAnalysis2Model.FK_Estimate_User" FromRole="User" ToRole="Estimate" />
+        </EntityType>
+        <EntityType Name="UserSetting">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="User" Relationship="Self.FK_UserSetting_User" FromRole="UserSetting" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Reports_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Stock_Company">
+          <End Role="Company" Type="Self.Company" Multiplicity="1" />
+          <End Role="Stock" Type="Self.Stock" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Stock">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Reports_Periods">
+          <End Role="Period" Type="Self.Period" Multiplicity="0..1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Report_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="CreatedByUserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StockQuote_Stock">
+          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
+          <End Role="StockQuote" Type="Self.StockQuote" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Stock">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="StockQuote">
+              <PropertyRef Name="StockId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserSetting_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="UserSetting" Type="Self.UserSetting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSetting">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StaredCompany">
+          <End Role="Company" Type="Self.Company" Multiplicity="*" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CompanyAnalysis2Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Companies" EntityType="Self.Company" />
+          <EntitySet Name="Periods" EntityType="Self.Period" />
+          <EntitySet Name="Reports" EntityType="Self.Report" />
+          <EntitySet Name="Stocks" EntityType="Self.Stock" />
+          <EntitySet Name="StockQuotes" EntityType="Self.StockQuote" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="UserSettings" EntityType="Self.UserSetting" />
+          <AssociationSet Name="FK_Reports_Company" Association="Self.FK_Reports_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Stock_Company" Association="Self.FK_Stock_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Stock" EntitySet="Stocks" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Reports_Periods" Association="Self.FK_Reports_Periods">
+            <End Role="Period" EntitySet="Periods" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Report_User" Association="Self.FK_Report_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Report" EntitySet="Reports" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StockQuote_Stock" Association="Self.FK_StockQuote_Stock">
+            <End Role="Stock" EntitySet="Stocks" />
+            <End Role="StockQuote" EntitySet="StockQuotes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserSetting_User" Association="Self.FK_UserSetting_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserSetting" EntitySet="UserSettings" />
+          </AssociationSet>
+          <AssociationSet Name="StaredCompany" Association="Self.StaredCompany">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Estimates" EntityType="CompanyAnalysis2Model.Estimate" />
+          <EntitySet Name="FinancialIndicators" EntityType="CompanyAnalysis2Model.FinancialIndicator" />
+          <AssociationSet Name="FK_Estimate_Company" Association="CompanyAnalysis2Model.FK_Estimate_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FinancialIndicator_Company" Association="CompanyAnalysis2Model.FK_FinancialIndicator_Company">
+            <End Role="Company" EntitySet="Companies" />
+            <End Role="FinancialIndicator" EntitySet="FinancialIndicators" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estimate_Period" Association="CompanyAnalysis2Model.FK_Estimate_Period">
+            <End Role="Period" EntitySet="Periods" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Estimate_User" Association="CompanyAnalysis2Model.FK_Estimate_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Estimate" EntitySet="Estimates" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FinancialIndicator_Period" Association="CompanyAnalysis2Model.FK_FinancialIndicator_Period">
+            <End Role="Period" EntitySet="Periods" />
+            <End Role="FinancialIndicator" EntitySet="FinancialIndicators" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Estimate">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="PeroidId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Revenue" Type="Double" />
+          <Property Name="NetIncome" Type="Double" />
+          <Property Name="Assets" Type="Double" />
+          <Property Name="Equity" Type="Double" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Company" Relationship="CompanyAnalysis2Model.FK_Estimate_Company" FromRole="Estimate" ToRole="Company" />
+          <NavigationProperty Name="Period" Relationship="CompanyAnalysis2Model.FK_Estimate_Period" FromRole="Estimate" ToRole="Period" />
+          <NavigationProperty Name="User" Relationship="CompanyAnalysis2Model.FK_Estimate_User" FromRole="Estimate" ToRole="User" />
+        </EntityType>
+        <EntityType Name="FinancialIndicator">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PeriodId" Type="Int32" Nullable="false" />
+          <Property Name="CompanyId" Type="Int32" Nullable="false" />
+          <Property Name="ProfitMargin" Type="Double" />
+          <Property Name="Solidity" Type="Double" />
+          <Property Name="NetIncomeTTM" Type="Double" />
+          <Property Name="RevenueTTM" Type="Double" />
+          <Property Name="ProfitMarginTTM" Type="Double" />
+          <Property Name="PeTTM" Type="Double" />
+          <Property Name="ReturnOnAssetsTTM" Type="Double" />
+          <Property Name="ReturnOnEquityTTM" Type="Double" />
+          <Property Name="InvestmentGradeTTM" Type="Double" />
+          <Property Name="EqutiyGrowthTTM" Type="Double" />
+          <Property Name="NetIncomeGrowthTTM" Type="Double" />
+          <Property Name="RevenueGrowthTTM" Type="Double" />
+          <NavigationProperty Name="Company" Relationship="CompanyAnalysis2Model.FK_FinancialIndicator_Company" FromRole="FinancialIndicator" ToRole="Company" />
+          <NavigationProperty Name="Period" Relationship="CompanyAnalysis2Model.FK_FinancialIndicator_Period" FromRole="FinancialIndicator" ToRole="Period" />
+          <Property Name="Revenue" Type="Double" />
+          <Property Name="NetIncome" Type="Double" />
+          <Property Name="Assets" Type="Double" />
+          <Property Name="Equity" Type="Double" />
+          <Property Name="MarketCap" Type="Double" />
+        </EntityType>
+        <Association Name="FK_Estimate_Company">
+          <End Type="CompanyAnalysis2Model.Company" Role="Company" Multiplicity="1" />
+          <End Type="CompanyAnalysis2Model.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FinancialIndicator_Company">
+          <End Type="CompanyAnalysis2Model.Company" Role="Company" Multiplicity="1" />
+          <End Type="CompanyAnalysis2Model.FinancialIndicator" Role="FinancialIndicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Company">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FinancialIndicator">
+              <PropertyRef Name="CompanyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estimate_Period">
+          <End Type="CompanyAnalysis2Model.Period" Role="Period" Multiplicity="1" />
+          <End Type="CompanyAnalysis2Model.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="PeroidId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Estimate_User">
+          <End Type="CompanyAnalysis2Model.User" Role="User" Multiplicity="1" />
+          <End Type="CompanyAnalysis2Model.Estimate" Role="Estimate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Estimate">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FinancialIndicator_Period">
+          <End Type="CompanyAnalysis2Model.Period" Role="Period" Multiplicity="1" />
+          <End Type="CompanyAnalysis2Model.FinancialIndicator" Role="FinancialIndicator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Period">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FinancialIndicator">
+              <PropertyRef Name="PeriodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CompanyAnalysis2ModelStoreContainer" CdmEntityContainer="CompanyAnalysis2Context">
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.Company">
+              <MappingFragment StoreEntitySet="Company">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="NextReportDate" ColumnName="NextReportDate" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="GoogleFinanceSymbol" ColumnName="GoogleFinanceSymbol" />
+                <ScalarProperty Name="Hidden" ColumnName="Hidden" />
+                <ScalarProperty Name="CEO" ColumnName="CEO" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Periods">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.Period">
+              <MappingFragment StoreEntitySet="Period">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="Quarter" ColumnName="Quarter" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reports">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="NetIncome" ColumnName="NetIncome" />
+                <ScalarProperty Name="Assets" ColumnName="Assets" />
+                <ScalarProperty Name="Equity" ColumnName="Equity" />
+                <ScalarProperty Name="CEO" ColumnName="CEO" />
+                <ScalarProperty Name="Overwrite" ColumnName="Overwrite" />
+                <ScalarProperty Name="CreatedByUserId" ColumnName="CreatedByUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Stocks">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.Stock">
+              <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StockQuotes">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.StockQuote">
+              <MappingFragment StoreEntitySet="StockQuote">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StockId" ColumnName="StockId" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="NumberOfSharesOutstanding" ColumnName="NumberOfSharesOutstanding" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MobilePhone" ColumnName="MobilePhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSettings">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.UserSetting">
+              <MappingFragment StoreEntitySet="UserSetting">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="StaredCompany" TypeName="CompanyAnalysis2Model.StaredCompany" StoreEntitySet="StaredCompany">
+            <EndProperty Name="Company">
+              <ScalarProperty Name="Id" ColumnName="CompanyId" />
+            </EndProperty>
+            <EndProperty Name="User">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Estimates">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.Estimate">
+              <MappingFragment StoreEntitySet="Estimate">
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Equity" ColumnName="Equity" />
+                <ScalarProperty Name="Assets" ColumnName="Assets" />
+                <ScalarProperty Name="NetIncome" ColumnName="NetIncome" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="PeroidId" ColumnName="PeroidId" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FinancialIndicators">
+            <EntityTypeMapping TypeName="CompanyAnalysis2Model.FinancialIndicator">
+              <MappingFragment StoreEntitySet="FinancialIndicator">
+                <ScalarProperty Name="MarketCap" ColumnName="MarketCap" />
+                <ScalarProperty Name="Equity" ColumnName="Equity" />
+                <ScalarProperty Name="Assets" ColumnName="Assets" />
+                <ScalarProperty Name="NetIncome" ColumnName="NetIncome" />
+                <ScalarProperty Name="Revenue" ColumnName="Revenue" />
+                <ScalarProperty Name="RevenueGrowthTTM" ColumnName="RevenueGrowthTTM" />
+                <ScalarProperty Name="NetIncomeGrowthTTM" ColumnName="NetIncomeGrowthTTM" />
+                <ScalarProperty Name="EqutiyGrowthTTM" ColumnName="EqutiyGrowthTTM" />
+                <ScalarProperty Name="InvestmentGradeTTM" ColumnName="InvestmentGradeTTM" />
+                <ScalarProperty Name="ReturnOnEquityTTM" ColumnName="ReturnOnEquityTTM" />
+                <ScalarProperty Name="ReturnOnAssetsTTM" ColumnName="ReturnOnAssetsTTM" />
+                <ScalarProperty Name="PeTTM" ColumnName="PeTTM" />
+                <ScalarProperty Name="ProfitMarginTTM" ColumnName="ProfitMarginTTM" />
+                <ScalarProperty Name="RevenueTTM" ColumnName="RevenueTTM" />
+                <ScalarProperty Name="NetIncomeTTM" ColumnName="NetIncomeTTM" />
+                <ScalarProperty Name="Solidity" ColumnName="Solidity" />
+                <ScalarProperty Name="ProfitMargin" ColumnName="ProfitMargin" />
+                <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />
+                <ScalarProperty Name="PeriodId" ColumnName="PeriodId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="2ade9d6ffcf24235804af8ca41bbdc65" Name="Diagram1">
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.Company" Width="1.5" PointX="0.75" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.Period" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.Report" Width="1.5" PointX="7.75" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.Stock" Width="1.5" PointX="3" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.StockQuote" Width="1.5" PointX="5.25" PointY="19.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.User" Width="1.5" PointX="3" PointY="21.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.UserSetting" Width="1.5" PointX="5.25" PointY="22.125" IsExpanded="true" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Reports_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Stock_Company" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Reports_Periods" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Report_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_StockQuote_Stock" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_UserSetting_User" ManuallyRouted="false" />
+        <AssociationConnector Association="CompanyAnalysis2Model.StaredCompany" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.Estimate" Width="1.5" PointX="5.25" PointY="13" />
+        <EntityTypeShape EntityType="CompanyAnalysis2Model.FinancialIndicator" Width="2.25" PointX="3" PointY="6.25" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Estimate_Company" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_FinancialIndicator_Company" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Estimate_Period" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_Estimate_User" />
+        <AssociationConnector Association="CompanyAnalysis2Model.FK_FinancialIndicator_Period" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
