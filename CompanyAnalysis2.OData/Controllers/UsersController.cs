@@ -169,7 +169,7 @@ namespace CompanyAnalysis2.OData.Controllers
         [EnableQuery]
         public IQueryable<Company> GetCompanies([FromODataUri] int key)
         {
-            return db.Users.Where(m => m.Id == key).SelectMany(m => m.Companies);
+            return db.Users.Where(m => m.Id == key).SelectMany(m => m.StaredCompanies);
         }
 
         // GET: odata/Users(5)/Estimates
@@ -178,6 +178,102 @@ namespace CompanyAnalysis2.OData.Controllers
         {
             return db.Users.Where(m => m.Id == key).SelectMany(m => m.Estimates);
         }
+
+        [HttpPost]
+        public IHttpActionResult CreateRef(int key, string navigationProperty, [FromBody] Uri link)
+        {
+            int relatedKey = Helpers.GetKeyFromUri<int>(Request, link);
+            return CreateRef(key, relatedKey, navigationProperty);
+        }
+
+        [HttpPost]
+        public IHttpActionResult CreateRef(int key, int relatedKey, string navigationProperty)
+        {
+            var user = db.Users.SingleOrDefault(u => u.Id == key);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            switch (navigationProperty)
+            {
+                case "StaredCompanies":
+                    var company = db.Companies.SingleOrDefault(c => c.Id == relatedKey);
+                    if (company == null)
+                    {
+                        return NotFound();
+                    }
+                    user.StaredCompanies.Add(company);
+                    break;
+                case "CreatedReports":
+                    var report = db.Reports.SingleOrDefault(r => r.Id == relatedKey);
+                    if (report == null)
+                    {
+                        return NotFound();
+                    }
+                    user.CreatedReports.Add(report);
+                    break;
+                case "Estimates":
+                    var estimate = db.Estimates.SingleOrDefault(e => e.Id == relatedKey);
+                    if (estimate == null)
+                    {
+                        return NotFound();
+                    }
+                    user.Estimates.Add(estimate);
+                    break;
+                default:
+                    return StatusCode(HttpStatusCode.NotImplemented);
+            }
+            db.SaveChangesAsync();
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteRef(int key, string navigationProperty, [FromBody] Uri link)
+        {
+            int relatedKey = Helpers.GetKeyFromUri<int>(Request, link);
+            return DeleteRef(key, relatedKey, navigationProperty);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteRef(int key, int relatedKey, string navigationProperty)
+        {
+            var user = db.Users.SingleOrDefault(u => u.Id == key);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            switch (navigationProperty)
+            {
+                case "StaredCompanies":
+                    var company = db.Companies.SingleOrDefault(c => c.Id == relatedKey);
+                    if (company == null)
+                    {
+                        return NotFound();
+                    }
+                    user.StaredCompanies.Remove(company);
+                    break;
+                case "CreatedReports":
+                    var report = db.Reports.SingleOrDefault(r => r.Id == relatedKey);
+                    if (report == null)
+                    {
+                        return NotFound();
+                    }
+                    user.CreatedReports.Remove(report);
+                    break;
+                case "Estimates":
+                    var estimate = db.Estimates.SingleOrDefault(e => e.Id == relatedKey);
+                    if (estimate == null)
+                    {
+                        return NotFound();
+                    }
+                    user.Estimates.Remove(estimate);
+                    break;
+                default:
+                    return StatusCode(HttpStatusCode.NotImplemented);
+            }
+            db.SaveChangesAsync();
+            return StatusCode(HttpStatusCode.NoContent);
+        }        
 
         protected override void Dispose(bool disposing)
         {

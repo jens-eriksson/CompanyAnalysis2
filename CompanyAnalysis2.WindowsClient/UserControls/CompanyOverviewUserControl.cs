@@ -34,7 +34,7 @@ namespace CompanyAnalysis2.WindowsClient.UserControls
 
         private void btnCalculateNumbers_Click(object sender, EventArgs e)
         {
-            Program.Data.CalculateFinacialInicators(_company.Id);
+            Program.DataContainer.CalculateFinacialInicators(_company.Id).Execute();
         }
     }
 }

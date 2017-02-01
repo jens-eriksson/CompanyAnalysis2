@@ -21,8 +21,8 @@ namespace CompanyAnalysis2.WindowsClient
 
         public void Populate()
         {
-            statusLabelLoggedOnUser.Text = Program.Data.LoggedOnUser.FirstName + " " + Program.Data.LoggedOnUser.LastName; 
-            companyPickerUserControl.Populate(Program.Data.Companies.ToList());
+            statusLabelLoggedOnUser.Text = Program.LoggedOnUser.FirstName + " " + Program.LoggedOnUser.LastName; 
+            companyPickerUserControl.Populate(Program.Companies);
         }
 
     }

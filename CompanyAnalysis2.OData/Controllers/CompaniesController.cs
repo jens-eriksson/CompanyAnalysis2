@@ -252,5 +252,82 @@ namespace CompanyAnalysis2.OData.Controllers
         {
             return db.Companies.Count(e => e.Id == key) > 0;
         }
+
+        [HttpPost]
+        public IHttpActionResult CreateRef(int key, string navigationProperty, [FromBody] Uri link)
+        {
+            int relatedKey = Helpers.GetKeyFromUri<int>(Request, link);
+            return CreateRef(key, relatedKey, navigationProperty);
+        }
+
+        [HttpPost]
+        public IHttpActionResult CreateRef(int key, int relatedKey, string navigationProperty)
+        {
+            var company = db.Companies.SingleOrDefault(c => c.Id == key);
+            if (company == null)
+            {
+                return NotFound();
+            }
+            switch (navigationProperty)
+            {
+                case "Reports":
+                    var report = db.Reports.SingleOrDefault(r => r.Id == relatedKey);
+                    if (report == null)
+                    {
+                        return NotFound();
+                    }
+                    company.Reports.Add(report);
+                    break;
+                case "Stocks":
+                    var stock = db.Stocks.SingleOrDefault(s => s.Id == relatedKey);
+                    if (stock == null)
+                    {
+                        return NotFound();
+                    }
+                    company.Stocks.Add(stock);
+                    break;
+                case "Users":
+                    var user = db.Users.SingleOrDefault(u => u.Id == relatedKey);
+                    if (user == null)
+                    {
+                        return NotFound();
+                    }
+                    company.Users.Add(user);
+                    break;
+                case "Estimates":
+                    var estimate = db.Estimates.SingleOrDefault(e => e.Id == relatedKey);
+                    if (estimate == null)
+                    {
+                        return NotFound();
+                    }
+                    company.Estimates.Add(estimate);
+                    break;
+                case "FinancialIndicators":
+                    var financialIndicator = db.FinancialIndicators.SingleOrDefault(f => f.Id == relatedKey);
+                    if (financialIndicator == null)
+                    {
+                        return NotFound();
+                    }
+                    company.FinancialIndicators.Add(financialIndicator);
+                    break;
+                default:
+                    return StatusCode(HttpStatusCode.NotImplemented);
+            }
+            db.SaveChangesAsync();
+            return StatusCode(HttpStatusCode.NoContent);
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteRef(int key, string relatedKey, string navigationProperty)
+        {
+            return Ok();
+        }
+
+        [HttpDelete]
+        public IHttpActionResult DeleteRef(int key,
+        string navigationProperty, [FromBody] Uri link)
+        {
+            return Ok();
+        }
     }
 }

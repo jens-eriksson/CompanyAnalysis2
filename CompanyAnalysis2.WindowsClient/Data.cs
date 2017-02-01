@@ -14,8 +14,8 @@ namespace CompanyAnalysis2.WindowsClient
     {
         private CompanyAnalysis2Container _container;
         public User LoggedOnUser { get; set; }
-        public IEnumerable<Period> Periods { get; set; }
-        public IEnumerable<Company> Companies { get; set; }
+        public List<Period> Periods { get; set; }
+        public List<Company> Companies { get; set; }
         
         public Data()
         {
@@ -25,9 +25,9 @@ namespace CompanyAnalysis2.WindowsClient
 
         public void Load()
         {
-            LoggedOnUser = _container.Users.ByKey(1).GetValue();
-            Periods = _container.Periods.Execute();
-            Companies = _container.Companies.Expand("FinancialIndicators($expand = Period)").Execute();
+            LoggedOnUser = _container.Users.ByKey(1).Expand("Companies").GetValue();
+            Periods = _container.Periods.Execute().ToList();
+            Companies = _container.Companies.Execute().ToList();
         }
 
         public void CalculateFinacialInicators(int companyId)

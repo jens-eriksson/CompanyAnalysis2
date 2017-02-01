@@ -19,7 +19,7 @@ namespace CompanyAnalysis2.Model
         {
             this.CreatedReports = new HashSet<Report>();
             this.UserSettings = new HashSet<UserSetting>();
-            this.Companies = new HashSet<Company>();
+            this.StaredCompanies = new HashSet<Company>();
             this.Estimates = new HashSet<Estimate>();
         }
     
@@ -35,7 +35,7 @@ namespace CompanyAnalysis2.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserSetting> UserSettings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<Company> StaredCompanies { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Estimate> Estimates { get; set; }
     }

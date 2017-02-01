@@ -47,10 +47,10 @@
             this.tabControl.Controls.Add(this.tabPageReports);
             this.tabControl.Controls.Add(this.tabPageStockQuotes);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabControl.Location = new System.Drawing.Point(0, 53);
+            this.tabControl.Location = new System.Drawing.Point(0, 29);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(495, 402);
+            this.tabControl.Size = new System.Drawing.Size(495, 426);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageOverview
@@ -60,7 +60,7 @@
             this.tabPageOverview.Location = new System.Drawing.Point(4, 22);
             this.tabPageOverview.Name = "tabPageOverview";
             this.tabPageOverview.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageOverview.Size = new System.Drawing.Size(487, 376);
+            this.tabPageOverview.Size = new System.Drawing.Size(487, 400);
             this.tabPageOverview.TabIndex = 0;
             this.tabPageOverview.Text = "Overview";
             // 
@@ -69,7 +69,7 @@
             this.tabPageReports.Location = new System.Drawing.Point(4, 22);
             this.tabPageReports.Name = "tabPageReports";
             this.tabPageReports.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageReports.Size = new System.Drawing.Size(487, 376);
+            this.tabPageReports.Size = new System.Drawing.Size(487, 400);
             this.tabPageReports.TabIndex = 1;
             this.tabPageReports.Text = "Reports";
             this.tabPageReports.UseVisualStyleBackColor = true;
@@ -78,7 +78,7 @@
             // 
             this.tabPageStockQuotes.Location = new System.Drawing.Point(4, 22);
             this.tabPageStockQuotes.Name = "tabPageStockQuotes";
-            this.tabPageStockQuotes.Size = new System.Drawing.Size(487, 376);
+            this.tabPageStockQuotes.Size = new System.Drawing.Size(487, 400);
             this.tabPageStockQuotes.TabIndex = 2;
             this.tabPageStockQuotes.Text = "Stock Quotes";
             this.tabPageStockQuotes.UseVisualStyleBackColor = true;
@@ -90,7 +90,7 @@
             this.panelTop.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelTop.Location = new System.Drawing.Point(0, 0);
             this.panelTop.Name = "panelTop";
-            this.panelTop.Size = new System.Drawing.Size(495, 53);
+            this.panelTop.Size = new System.Drawing.Size(495, 29);
             this.panelTop.TabIndex = 1;
             // 
             // btnClose
@@ -106,8 +106,7 @@
             // 
             // btnCalculateNumbers
             // 
-            this.btnCalculateNumbers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCalculateNumbers.Location = new System.Drawing.Point(251, 3);
+            this.btnCalculateNumbers.Location = new System.Drawing.Point(3, 3);
             this.btnCalculateNumbers.Name = "btnCalculateNumbers";
             this.btnCalculateNumbers.Size = new System.Drawing.Size(160, 23);
             this.btnCalculateNumbers.TabIndex = 1;
@@ -120,7 +119,7 @@
             this.companyOverviewUserControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.companyOverviewUserControl1.Location = new System.Drawing.Point(3, 3);
             this.companyOverviewUserControl1.Name = "companyOverviewUserControl1";
-            this.companyOverviewUserControl1.Size = new System.Drawing.Size(481, 370);
+            this.companyOverviewUserControl1.Size = new System.Drawing.Size(481, 394);
             this.companyOverviewUserControl1.TabIndex = 0;
             // 
             // CompanyUserControl

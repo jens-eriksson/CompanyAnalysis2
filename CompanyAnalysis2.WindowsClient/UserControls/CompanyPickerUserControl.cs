@@ -24,7 +24,7 @@ namespace CompanyAnalysis2.WindowsClient.UserControls
             _companies = companies;
             foreach (Company company in companies)
                 txtPicker.AutoCompleteCustomSource.Add(company.Name);
-            foreach (Company company in Program.Data.LoggedOnUser.Companies)
+            foreach (Company company in Program.LoggedOnUser.StaredCompanies)
                 LoadCompany(company.Name);
         }
 
@@ -51,11 +51,18 @@ namespace CompanyAnalysis2.WindowsClient.UserControls
                 return;
             }
 
+            if (Program.LoggedOnUser.StaredCompanies.Contains(company) == false)
+            {
+                Program.LoggedOnUser.StaredCompanies.Add(company);
+                Program.DataContainer.AddLink(Program.LoggedOnUser, "StaredCompanies", company);
+                Program.DataContainer.SaveChanges();
+            }
+
             tabControlCompanies.TabPages.Add(name, name);
             TabPage tab = tabControlCompanies.TabPages[name];
             tab.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             CompanyUserControl userControl = new CompanyUserControl();
-            userControl.Populate(company);
+            userControl.Populate(company.Id);
             userControl.Dock = DockStyle.Fill;
             userControl.Close += comapnyUserControl_Close;
             tab.Controls.Add(userControl);
@@ -69,6 +76,18 @@ namespace CompanyAnalysis2.WindowsClient.UserControls
             {
                 tabControlCompanies.TabPages.Remove(tabControlCompanies.TabPages[name]);                
             }
+
+            Company company = _companies.Where(c => c.Name == name).FirstOrDefault();
+            if (company == null)
+                return;
+
+            if (Program.LoggedOnUser.StaredCompanies.Contains(company) == true)
+            {
+                Program.LoggedOnUser.StaredCompanies.Remove(company);
+                Program.DataContainer.DeleteLink(Program.LoggedOnUser, "StaredCompanies", company);
+                Program.DataContainer.SaveChanges();
+            }
+
             txtPicker.Focus();
         }
 

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// Generation date: 2017-01-06 21:29:18
+// Generation date: 2017-02-01 10:40:16
 namespace CompanyAnalysis2.Model
 {
     /// <summary>
@@ -2661,10 +2661,10 @@ namespace CompanyAnalysis2.Model
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "2.4.0")]
         private global::Microsoft.OData.Client.DataServiceQuery<global::CompanyAnalysis2.Model.UserSetting> _UserSettings;
         /// <summary>
-        /// There are no comments for Companies in the schema.
+        /// There are no comments for StaredCompanies in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "2.4.0")]
-        public global::Microsoft.OData.Client.DataServiceQuery<global::CompanyAnalysis2.Model.Company> Companies
+        public global::Microsoft.OData.Client.DataServiceQuery<global::CompanyAnalysis2.Model.Company> StaredCompanies
         {
             get
             {
@@ -2672,15 +2672,15 @@ namespace CompanyAnalysis2.Model
                 {
                     throw new global::System.NotSupportedException("The previous function is not composable.");
                 }
-                if ((this._Companies == null))
+                if ((this._StaredCompanies == null))
                 {
-                    this._Companies = Context.CreateQuery<global::CompanyAnalysis2.Model.Company>(GetPath("Companies"));
+                    this._StaredCompanies = Context.CreateQuery<global::CompanyAnalysis2.Model.Company>(GetPath("StaredCompanies"));
                 }
-                return this._Companies;
+                return this._StaredCompanies;
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "2.4.0")]
-        private global::Microsoft.OData.Client.DataServiceQuery<global::CompanyAnalysis2.Model.Company> _Companies;
+        private global::Microsoft.OData.Client.DataServiceQuery<global::CompanyAnalysis2.Model.Company> _StaredCompanies;
         /// <summary>
         /// There are no comments for Estimates in the schema.
         /// </summary>
@@ -2900,27 +2900,27 @@ namespace CompanyAnalysis2.Model
         partial void OnUserSettingsChanging(global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.UserSetting> value);
         partial void OnUserSettingsChanged();
         /// <summary>
-        /// There are no comments for Property Companies in the schema.
+        /// There are no comments for Property StaredCompanies in the schema.
         /// </summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "2.4.0")]
-        public global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company> Companies
+        public global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company> StaredCompanies
         {
             get
             {
-                return this._Companies;
+                return this._StaredCompanies;
             }
             set
             {
-                this.OnCompaniesChanging(value);
-                this._Companies = value;
-                this.OnCompaniesChanged();
-                this.OnPropertyChanged("Companies");
+                this.OnStaredCompaniesChanging(value);
+                this._StaredCompanies = value;
+                this.OnStaredCompaniesChanged();
+                this.OnPropertyChanged("StaredCompanies");
             }
         }
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.OData.Client.Design.T4", "2.4.0")]
-        private global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company> _Companies = new global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company>(null, global::Microsoft.OData.Client.TrackingMode.None);
-        partial void OnCompaniesChanging(global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company> value);
-        partial void OnCompaniesChanged();
+        private global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company> _StaredCompanies = new global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company>(null, global::Microsoft.OData.Client.TrackingMode.None);
+        partial void OnStaredCompaniesChanging(global::Microsoft.OData.Client.DataServiceCollection<global::CompanyAnalysis2.Model.Company> value);
+        partial void OnStaredCompaniesChanged();
         /// <summary>
         /// There are no comments for Property Estimates in the schema.
         /// </summary>
@@ -3747,7 +3747,7 @@ namespace CompanyAnalysis2
         <Property Name=""MobilePhone"" Type=""Edm.String"" />
         <NavigationProperty Name=""CreatedReports"" Type=""Collection(CompanyAnalysis2.Model.Report)"" />
         <NavigationProperty Name=""UserSettings"" Type=""Collection(CompanyAnalysis2.Model.UserSetting)"" />
-        <NavigationProperty Name=""Companies"" Type=""Collection(CompanyAnalysis2.Model.Company)"" />
+        <NavigationProperty Name=""StaredCompanies"" Type=""Collection(CompanyAnalysis2.Model.Company)"" />
         <NavigationProperty Name=""Estimates"" Type=""Collection(CompanyAnalysis2.Model.Estimate)"" />
       </EntityType>
       <EntityType Name=""UserSetting"">
@@ -3808,7 +3808,7 @@ namespace CompanyAnalysis2
         <EntitySet Name=""Users"" EntityType=""CompanyAnalysis2.Model.User"">
           <NavigationPropertyBinding Path=""CreatedReports"" Target=""Reports"" />
           <NavigationPropertyBinding Path=""UserSettings"" Target=""UserSettings"" />
-          <NavigationPropertyBinding Path=""Companies"" Target=""Companies"" />
+          <NavigationPropertyBinding Path=""StaredCompanies"" Target=""Companies"" />
           <NavigationPropertyBinding Path=""Estimates"" Target=""Estimates"" />
         </EntitySet>
         <EntitySet Name=""UserSettings"" EntityType=""CompanyAnalysis2.Model.UserSetting"">

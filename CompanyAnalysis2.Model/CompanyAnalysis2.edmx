@@ -436,7 +436,7 @@
           <Property Name="MobilePhone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="CreatedReports" Relationship="Self.FK_Report_User" FromRole="User" ToRole="Report" />
           <NavigationProperty Name="UserSettings" Relationship="Self.FK_UserSetting_User" FromRole="User" ToRole="UserSetting" />
-          <NavigationProperty Name="Companies" Relationship="Self.StaredCompany" FromRole="User" ToRole="Company" />
+          <NavigationProperty Name="StaredCompanies" Relationship="Self.StaredCompany" FromRole="User" ToRole="Company" />
           <NavigationProperty Name="Estimates" Relationship="CompanyAnalysis2Model.FK_Estimate_User" FromRole="User" ToRole="Estimate" />
         </EntityType>
         <EntityType Name="UserSetting">

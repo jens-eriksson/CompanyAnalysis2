@@ -9,7 +9,7 @@
     "IgnoreUnexpectedElementsAndAttributes": false,
     "IncludeT4File": false,
     "ServiceName": "CompanyAnalysis2.OData",
-    "Endpoint": "http://verkmastargatan4.dyndns.org:82/odata/$metadata",
+    "Endpoint": "http://localhost:82/odata/$metadata",
     "EdmxVersion": {
       "Major": 4,
       "Minor": 0,
