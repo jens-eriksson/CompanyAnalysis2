@@ -159,6 +159,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\Berta.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -166,9 +167,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\CompanyAnalysis2.Calculations\CompanyAnalysis2.Calculations.csproj">
       <Project>{90a703c6-a03c-4439-87d6-599812830b28}</Project>
@@ -194,7 +193,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55157</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:55157/</IISUrl>
+          <IISUrl>http://localhost:8282/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

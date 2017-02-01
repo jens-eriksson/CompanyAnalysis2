@@ -25,5 +25,9 @@ namespace CompanyAnalysis2.WindowsClient
             companyPickerUserControl.Populate(Program.Companies);
         }
 
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }

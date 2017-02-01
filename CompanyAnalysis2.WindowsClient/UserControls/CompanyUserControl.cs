@@ -24,10 +24,9 @@ namespace CompanyAnalysis2.WindowsClient.UserControls
 
         public void Populate(int companyId)
         {
-
             _company = Program.DataContainer.Companies
                             .ByKey(companyId)
-                            .Expand("FinancialIndicators($expand = Period)")
+                            .Expand("FinancialIndicators($expand=Period)")
                             .GetValue();
             companyOverviewUserControl1.Populate(_company);
         }
