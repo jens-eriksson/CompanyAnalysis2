@@ -98,6 +98,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar(max)" Nullable="false" />
           <Property Name="CompanyId" Type="int" Nullable="false" />
+          <Property Name="IsDefault" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="StockQuote">
           <Key>
@@ -261,18 +262,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_StockQuote_Stock">
-          <End Role="Stock" Type="Self.Stock" Multiplicity="1" />
-          <End Role="StockQuote" Type="Self.StockQuote" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Stock">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="StockQuote">
-              <PropertyRef Name="StockId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_UserSetting_User">
           <End Role="User" Type="Self.User" Multiplicity="1" />
           <End Role="UserSetting" Type="Self.UserSetting" Multiplicity="*" />
@@ -339,10 +328,6 @@
           <AssociationSet Name="FK_Stock_Company" Association="Self.FK_Stock_Company">
             <End Role="Company" EntitySet="Company" />
             <End Role="Stock" EntitySet="Stock" />
-          </AssociationSet>
-          <AssociationSet Name="FK_StockQuote_Stock" Association="Self.FK_StockQuote_Stock">
-            <End Role="Stock" EntitySet="Stock" />
-            <End Role="StockQuote" EntitySet="StockQuote" />
           </AssociationSet>
           <AssociationSet Name="FK_UserSetting_User" Association="Self.FK_UserSetting_User">
             <End Role="User" EntitySet="User" />
@@ -412,6 +397,7 @@
           <Property Name="CompanyId" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Company" Relationship="Self.FK_Stock_Company" FromRole="Stock" ToRole="Company" />
           <NavigationProperty Name="StockQuotes" Relationship="Self.FK_StockQuote_Stock" FromRole="Stock" ToRole="StockQuote" />
+          <Property Name="IsDefault" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="StockQuote">
           <Key>
@@ -739,6 +725,7 @@
           <EntitySetMapping Name="Stocks">
             <EntityTypeMapping TypeName="CompanyAnalysis2Model.Stock">
               <MappingFragment StoreEntitySet="Stock">
+                <ScalarProperty Name="IsDefault" ColumnName="IsDefault" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="CompanyId" ColumnName="CompanyId" />

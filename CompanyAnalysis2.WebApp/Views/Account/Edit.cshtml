@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Bolagsanalys | " + Model.FirstName + " " + Model.LastName; 
+}
+@model CompanyAnalysis2.WebApp.ViewModels.EditAccountViewModel
+
+<form id="edit" action="edit" method="post" class="loginForm">
+    <div class="loginBox">
+        <input id="Email" name="Email" type="hidden" value="@Model.Email" />
+        Förnamn*<br />
+        <input id="FirstName" name="FirstName" type="text" class="textbox"  value="@Model.FirstName" /><br />
+        Efternamn*<br />
+        <input id="LastName" name="LastName" type="text" class="textbox" value="@Model.LastName" /><br />
+        <input class="float-right" type="submit" value="Spara" />
+         <br /><br />
+    </div>
+    <br />
+        @Html.ValidationSummary()
+</form>

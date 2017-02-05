@@ -1,0 +1,142 @@
+﻿@using CompanyAnalysis2.WebApp.ViewModels
+@model CompanyListViewModel
+
+@{
+    ViewBag.Title = "Bolagsanalys";
+}
+
+@if (Request.IsAuthenticated)
+{
+    <input id="Email" value="@ViewBag.App.LoggedOnUser.Email" type="hidden" />
+}
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">BOLAGSANALYS</li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+
+            @if (Request.IsAuthenticated)
+            {
+                <div class="pull-right">
+                    <select id="filter" class="form-control">
+                        <option value="all" @if (ViewBag.CompanyListFilter == "all") { <text> selected</text>}>Visa alla</option>
+                        <option value="stared" @if (ViewBag.CompanyListFilter == "stared") { <text> selected</text>}>Visa mina favoriter</option>
+                    </select>
+                </div>
+            }
+
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Company
+                        </th>
+                        <th class="text-align-center">
+                            Grade
+                        </th>
+                        <th class="text-align-center">
+                            <div class="small-text ">Bästa bolag</div>
+                            E/A TTM
+                        </th>
+                        <th class="text-align-center">
+                            <div class="small-text ">Bästa värdering</div>
+                            P/E TTM
+                        </th>
+                        <th class="text-align-center">
+                            Market Cap
+                        </th>
+                        <th class="text-align-center">
+                            Net Income TTM
+                        </th>
+                        <th class="text-align-center">
+                            Stock Quote
+                        </th>
+
+                        <th class="text-align-center hidden-sm hidden-xs">
+                           Next Report Date
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var company in Model.Companies)
+                    {
+                        <tr>
+                            @if (Model.IsStared(company))
+                            {
+                                <td>
+                                    <img class="star" src="@Url.Content("~/images/star-yellow16.png")" alt="star" />
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <img class="star" src="@Url.Content("~/images/star-silver16.png")" alt="star" />
+                                </td>
+                            }
+                            <td>
+                                @Html.ActionLink(company.Name, "details", new { id = company.Id })
+                            </td>
+                            <td class="text-align-center">
+                                @if (company.GetLatestIndicators() != null)
+                                {
+                                    @company.GetLatestIndicators().InvestmentGradeTTM.Value.ToString("#,##0.00")
+                                }
+                            </td>
+                            <td class="text-align-center">
+                                @if (company.GetLatestIndicators() != null)
+                                {
+                                    @company.GetLatestIndicators().ReturnOnAssetsTTM.Value.ToString("#,##0.00")
+                                }
+                            </td>
+                            <td class="text-align-center">
+                                @if (company.GetLatestIndicators() != null)
+                                {
+                                    @company.GetLatestIndicators().PeTTM.Value.ToString("#,##0.00")
+                                }
+                            </td>
+                            <td class="text-align-center">
+                                @if (company.GetLatestIndicators() != null)
+                                {
+                                    @company.GetLatestIndicators().MarketCap.Value.ToString("#,##0.00")
+                                }
+                            </td>
+                            <td class="text-align-center">
+                                @if (company.GetLatestIndicators() != null)
+                                {
+                                    @company.GetLatestIndicators().NetIncomeTTM.Value.ToString("#,##0.00")
+                                }
+                            </td>
+                            <td class="text-align-center">
+                                @if (company.GetLastestStockQuote() != null)
+                                {
+                                    @company.GetLastestStockQuote().Price.ToString("#,##0.00")
+                                }
+                            </td>
+
+                            <td class="text-align-center hidden-sm hidden-xs">
+                                @if (company.NextReportDate.HasValue)
+                                {
+                                    @company.NextReportDate.Value.ToShortDateString()
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/Company/index.js" type="text/javascript"></script>
+}

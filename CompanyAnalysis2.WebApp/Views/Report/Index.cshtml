@@ -1,0 +1,171 @@
+﻿@model CompanyAnalysis2.Model.Company
+
+@{
+    ViewBag.Title = "Bolagsanalys | " + Model.Name;
+}
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">@Model.Name.ToUpper()</li>
+        </ul>
+    </div>
+</nav>
+@Html.Partial("_CompanyTabMenu", Model)
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-condensed table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            Period
+                        </th>
+                        <th>
+                            Omsättning
+                        </th>
+                        <th>
+                            Resultat
+                        </th>
+                        <th>
+                            Tillgångar
+                        </th>
+                        <th>
+                            Eget kapital
+                        </th>
+                        <th>
+                            Antal aktier
+                        </th>
+                        <th>
+                            VD
+                        </th>
+                        <th>
+                            Aktiekurs
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                @foreach (Period period in ViewBag.Periods)
+                {
+                    if (Model.Reports.Where(r => r.Period.Id == period.Id).Count() > 0)
+                    {
+                        Report report = Model.Reports.Where(r => r.Period.Id == period.Id).First();
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.Period.Name)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.Revenue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.NetIncome)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.Assets)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.Equity)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.NumberOfShares)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => report.CEO)
+                            </td>
+                            <td>
+                                @if (report.StockPrice.HasValue)
+                                {
+                                    @report.StockPrice.Value.ToString("#,##0.00")
+                                }
+                                else
+                                {
+                                    <text>-</text>
+                                }
+                            </td>
+                            <td style="text-align: right;">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    @Html.ActionLink("Redigera", "edit", new { id = report.Id })
+                                    if (report.CreatedBy == HttpContext.Current.User.Identity.Name || report.Company.CreatedBy == HttpContext.Current.User.Identity.Name)
+                                    {
+                                        <text> | </text>
+                                        <a href="#" class="delete-link" data-toggle="modal" data-target="#modal-delete" data-report-id="@report.Id" data-report-name="@report.Period.Name">Ta bort</a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => period.Name)
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                -
+                            </td>
+                            <td>
+                                @if (Model.GetStockPrice(period.EndDate.Value) != null)
+                                {
+                                    @Model.GetStockPrice(period.EndDate.Value).Price.ToString("#,##0.00")
+                                }
+                                else
+                                {
+                                    <text>-</text>
+                                }
+                            </td>
+                            <td style="text-align: right;">
+                                @if (Request.IsAuthenticated)
+                                {
+                                    @Html.ActionLink("Lägg upp", "Create", new { cid = Model.Id, pid = period.Id })
+                                }
+                            </td>
+                        </tr>
+                    }
+
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ta bort rapport</h4>
+            </div>
+            <div class="modal-body">
+                Är du säker att du vill ta bort <span id="modal-report-name"></span>?
+            </div>
+            <div class="modal-footer">
+                <form action="@Url.Action("delete")" method="post">
+                    <input id="modal-report-id" name="id" type="hidden" value="" />
+                    <input class="btn btn-primary" type="submit" value="Ta bort" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/js/report/index.js")
+}

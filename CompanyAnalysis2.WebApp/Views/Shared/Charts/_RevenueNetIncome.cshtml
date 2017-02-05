@@ -1,0 +1,51 @@
+﻿@using CompanyAnalysis2.Model
+@model Company
+@{
+    string divId = Guid.NewGuid().ToString();   
+ }
+<div id="@divId" class="content"></div>
+<!-- Chart 2 -->
+<script type="text/javascript">
+    // Create and populate the data table.
+    data = new google.visualization.DataTable();
+    data.addColumn('string', 'Perioder');
+    data.addColumn('number', 'Omsättning');
+    data.addColumn('number', 'Resultat');
+    @foreach (Period period in ViewBag.Periods)
+    {
+        if (Model.Reports.Where(r => r.Period.Id == period.Id).Count() > 0)
+        {
+            Report report = Model.Reports.Where(r => r.Period.Id == period.Id).First();
+            var revenue = "null";
+            if (report.Revenue.HasValue)
+            {
+                revenue = report.Revenue.Value.ToString("#0.00").Replace(",", ".");
+            }
+            var netIncome = "null";
+            if (report.NetIncome.HasValue)
+            {
+                netIncome = report.NetIncome.Value.ToString("#0.00").Replace(",", ".");
+            }
+            
+            <text>data.addRow(['</text>@report.Period.Name<text>', </text>@revenue<text>, </text>@netIncome<text>]);</text>
+        }
+        else
+        {
+            <text>data.addRow(['</text>@period.Name<text>', null, null]);</text>
+        }
+    }
+
+    // Create and draw the visualization.
+    var revenueNetIncome = new google.visualization.ColumnChart(document.getElementById('@divId'));
+    revenueNetIncome.draw(data, {
+        chartArea:{left:70, top:50, width:"80%", height:"70%"},
+        height: 350,
+        hAxis: { slantedText: true, showTextEvery: 1 },
+        series: {
+            0: { color: 'blue' },
+            1: { color: 'green' }
+        },
+        legend: {position: 'top'}
+    });
+
+</script>

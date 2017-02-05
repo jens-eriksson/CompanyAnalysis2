@@ -1,0 +1,89 @@
+﻿@model CompanyAnalysis2.Model.Company
+
+@{
+    ViewBag.Title = "Bolagsanalys | " + Model.Name;
+}
+
+<input id="Id" name="Id" value="@Model.Id" type="hidden" />
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">@Model.Name.ToUpper()</li>
+        </ul>
+    </div>
+</nav>
+@Html.Partial("_CompanyTabMenu", Model)
+<div class="container">
+    <div class="row">
+        <button id="do-import" class="btn btn-default pull-right"><span id="button-icon" class="fa fa-play"></span>&nbsp;&nbsp;STARTA IMPORT</button>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6">
+            <h3>KURSER</h3>
+            @if (Model.StockPriceImportSchedule != null)
+            {
+            <p>Körs var @Model.StockPriceImportSchedule.Interval minut</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kördatum</th>
+                        <th>Klardatum</th>
+                        <th>Körtid (s)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (StockPriceImport import in Model.StockPriceImportSchedule.StockPriceImports.Take(10).OrderByDescending(s => s.RunDate))
+                    {
+                        <tr>
+                            <td>@import.RunDate</td>
+                            <td>@import.FinishDate</td>
+                            <td>@import.Duration.TotalSeconds</td>
+                            <td>@import.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            else
+            {
+                <span class="label-warning">Importschema saknas</span>
+            }
+        </div> 
+        <div class="col-lg-6 col-md-6">
+            <h3>RAPPORTER</h3>
+            @if (Model.FinanceImportSchedule != null)
+            {
+            <p>Körs var @Model.FinanceImportSchedule.Interval minut</p>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Kördatum</th>
+                        <th>Klardatum</th>
+                        <th>Körtid (s)</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (FinanceImport import in Model.FinanceImportSchedule.FinanceImports.Take(10).OrderByDescending(s => s.RunDate))
+                    {
+                        <tr>
+                            <td>@import.RunDate</td>
+                            <td>@import.FinishDate</td>
+                            <td>@import.Duration.TotalSeconds</td>
+                            <td>@import.Status</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            }
+            else
+            {
+                <span class="label-warning">Importschema saknas</span>
+            }
+        </div> 
+    </div>
+</div>
+

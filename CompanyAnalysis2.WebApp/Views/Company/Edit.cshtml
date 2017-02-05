@@ -1,0 +1,81 @@
+﻿@model CompanyAnalysis2.Model.Company
+
+@{
+    ViewBag.Title = "Bolagsanalys | " + Model.Name;
+}
+
+<input id="Id" name="Id" value="@Model.Id" type="hidden" />
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">@Model.Name.ToUpper()</li>
+        </ul>
+    </div>
+</nav>
+@Html.Partial("_CompanyTabMenu", Model)
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">   
+            <form action="@Url.Action("edit")" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon">Namn</span>
+                    <input class="form-control" type="text" name="Name" value="@Model.Name" required />
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Valuta</span>
+                    <input class="form-control" type="text" name="Currency" value="@Model.Currency" required />
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Ticker</span>
+                    <input class="form-control" type="text" name="GoogleFinanceSymbol" value="@Model.GoogleFinanceSymbol" required />
+                </div>
+                <hr />
+
+                <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Spara</button>
+                <a href="#" class="delete-link btn btn-default" data-toggle="modal" data-target="#modal-delete" data-company-id="@Model.Id" data-company-name="@Model.Name"><span class="glyphicon glyphicon-trash"></span>&nbsp;Ta bort</a>
+            </form>
+ 
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <!-- Save confirmation-->
+            <br />
+            <div class="alert alert-success alert-dismissible @if(ViewBag.ShowSaveConfirmation){}else{<text>hidden</text>}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                Bolagsuppgifterna sparade
+            </div>
+        </div>
+   </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ta bort bolag</h4>
+            </div>
+            <div class="modal-body">
+                Är du säker att du vill ta bort <span id="modal-company-name"></span>?
+            </div>
+            <div class="modal-footer">
+                <form action="@Url.Action("remove")" method="post">
+                    <input id="modal-company-id" name="id" type="hidden" value="" />
+                    <input class="btn btn-primary" type="submit" value="Ta bort" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/js/company/edit.js")
+}

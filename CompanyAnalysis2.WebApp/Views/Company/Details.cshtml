@@ -1,0 +1,349 @@
+﻿@model CompanyAnalysis2.Model.Company
+
+@{
+    ViewBag.Title = "Bolagsanalys | " + Model.Name;
+}
+<input id="Id" name="Id" value="@Model.Id" type="hidden" />
+@if (Request.IsAuthenticated)
+{
+    <input id="Email" value="@ViewBag.App.LoggedOnUser.Email" type="hidden" />
+}
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">@Model.Name.ToUpper()</li>
+        </ul>
+    </div>
+</nav>
+@Html.Partial("_CompanyTabMenu", Model)
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <table class="table">
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Omsättning R12</b>
+                    </td>
+                    <td>
+                        @if (Model.RevenueR12.HasValue)
+                        {
+                            @Model.RevenueR12.Value.ToString("#,##0.00")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Resultat R12</b>
+                    </td>
+                    <td>
+                        @if (Model.NetIncomeR12.HasValue)
+                        {
+                            @Model.NetIncomeR12.Value.ToString("#,##0.00")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Marginal R12</b>
+                    </td>
+                    <td>
+                        @if (Model.MarginR12.HasValue)
+                        {
+                            string MarginR12 = (Model.MarginR12.Value * 100).ToString("#,##0.00");
+                            @MarginR12<text>%</text>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <table class="table">
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Tillgångar</b>
+                    </td>
+                    <td>
+                        @if (Model.RevenueR12.HasValue)
+                        {
+                            @Model.Assets.Value.ToString("#,##0.00")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Eget kapital</b>
+                    </td>
+                    <td>
+                        @if (Model.Equity.HasValue)
+                        {
+                            @Model.Equity.Value.ToString("#,##0.00")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Soliditet</b>
+                    </td>
+                    <td>
+                        @if (Model.Solidity.HasValue)
+                        {
+                            string Solidity = (Model.Solidity.Value * 100).ToString("#,##0.00");
+                            @Solidity<text>%</text>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <table class="table">
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Betyg</b>
+                    </td>
+                    <td>
+                        @if (Model.InvestmentGradeR12.HasValue)
+                        {
+                            @Model.InvestmentGradeR12.Value.ToString("#,##0")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>P/E R12</b>
+                    </td>
+                    <td>
+                        @if (Model.PeR12.HasValue)
+                        {
+                            @Model.PeR12.Value.ToString("#,##0.00")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>E/A R12</b>
+                    </td>
+                    <td>
+                        @if (Model.ReturnOnTotalCapitalR12.HasValue)
+                        {
+                            string ReturnOnTotalCapitalR12 = (Model.ReturnOnTotalCapitalR12.Value * 100).ToString("#,##0.00");
+                            @ReturnOnTotalCapitalR12<text>%</text>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <table class="table">
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Aktiekurs</b>
+                    </td>
+                    <td>
+                        @if (Model.StockPrice.HasValue)
+                        {
+                            @Model.StockPrice.Value.ToString("#,##0.00") <text> </text>  @Model.Currency
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Antal aktier</b>
+                    </td>
+                    <td>
+                        @if (Model.NumberOfShares.HasValue)
+                        {
+                            @Model.NumberOfShares.Value.ToString("#,##0")
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="company-details-heading-col">
+                        <b>Värdering</b>
+                    </td>
+                    <td>
+                        @if (Model.CompanyValue.HasValue)
+                        {
+                            @Model.CompanyValue.Value.ToString("#,##0.00") <text>M</text>@Model.Currency
+                        }
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="pull-right">
+                <b>Nästa rapport</b><br />
+                @if (Request.IsAuthenticated)
+                {
+                    string nextReportDate = "";
+                    if (Model.NextReportDate.HasValue)
+                    {
+                        nextReportDate = Model.NextReportDate.Value.ToShortDateString();
+                    }
+                    <input id="NextReportDate" type="text" value="@nextReportDate" class="form-control" style="width: 150px;" />
+                }
+                else if (Model.NextReportDate.HasValue)
+                {
+                    @Model.NextReportDate.Value.ToShortDateString()
+                }
+                <br />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    @{
+        CompanyAnalysis2Context context = new CompanyAnalysis2Context();
+
+        UserSetting us = context.UserSettings.Find(ViewBag.App.LoggedOnUser.Email, "Chart1");
+        var chart1Selection = "_ValueEarningsR12Chart";
+        if (us != null)
+        {
+            chart1Selection = us.Value;
+        }
+
+        us = context.UserSettings.Find(ViewBag.App.LoggedOnUser.Email, "Chart2");
+        var chart2Selection = "_ReturnOnTotalCapitalR12Chart";
+        if (us != null)
+        {
+            chart2Selection = us.Value;
+        }
+
+        us = context.UserSettings.Find(ViewBag.App.LoggedOnUser.Email, "Chart3");
+        var chart3Selection = "_YieldR12Chart";
+        if (us != null)
+        {
+            chart3Selection = us.Value;
+        }
+
+        us = context.UserSettings.Find(ViewBag.App.LoggedOnUser.Email, "Chart4");
+        var chart4Selection = "_RevenueR12NetIncomeR12";
+        if (us != null)
+        {
+            chart4Selection = us.Value;
+        }
+
+        us = context.UserSettings.Find(ViewBag.App.LoggedOnUser.Email, "Chart5");
+        var chart5Selection = "_MarginR12";
+        if (us != null)
+        {
+            chart5Selection = us.Value;
+        }
+    }
+    <select id="selector-chart1" class="form-control chart-selector">
+        <option value="_ValueEarningsR12Chart" @if (chart1Selection == "_ValueEarningsR12Chart") { <text> selected</text>}>Värdering & Resultat R12</option>
+        <option value="_InvestmentGradeR12" @if (chart1Selection == "_InvestmentGradeR12") { <text> selected</text>}>Investeringsbetyg R12</option>
+        <option value="_ReturnOnEquityR12Chart" @if (chart1Selection == "_ReturnOnEquityR12Chart") { <text> selected</text>}>Avkastning på eget kapital R12 (E/Eq)</option>
+        <option value="_ReturnOnTotalCapitalR12Chart" @if (chart1Selection == "_ReturnOnTotalCapitalR12Chart") { <text> selected</text>}>Avkastning på totalt kapital R12 (E/A)</option>
+        <option value="_YieldR12Chart" @if (chart1Selection == "_YieldR12Chart") { <text> selected</text>}>E/P R12</option>
+        <option value="_PER12Chart" @if (chart1Selection == "_PER12Chart") { <text> selected</text>}>P/E R12</option>
+        <option value="_RevenueR12NetIncomeR12" @if (chart1Selection == "_RevenueR12NetIncomeR12") { <text> selected</text>}>Omsätting R12 & Resultat R12</option>
+        <option value="_MarginR12" @if (chart1Selection == "_MarginR12") { <text> selected</text>}>Vinstmarginal R12</option>
+        <option value="_RevenueGrowthR12NetIncomeGrowthR12" @if (chart1Selection == "_RevenueGrowthR12NetIncomeGrowthR12") { <text> selected</text>}>Omsättningstillväxt R12 & Resultattillväxt R12</option>
+        <option value="_RevenueNetIncome" @if (chart1Selection == "_RevenueNetIncome") { <text> selected</text>}>Omsätting Kv & Resultat Kv</option>
+        <option value="_Margin" @if (chart1Selection == "_Margin") { <text> selected</text>}>Vinstmarginal Kv</option>
+        <option value="_Solidity" @if (chart1Selection == "_Solidity") { <text> selected</text>}>Soliditet</option>
+        <option value="_StockPriceChart" @if (chart1Selection == "_StockPriceChart") { <text> selected</text>}>Aktiekurs</option>
+    </select>
+    <hr />
+    <div id="chart1" class="chart">
+        @Html.Partial("Charts/" + chart1Selection, Model)
+    </div>
+
+    <select id="selector-chart2" class="form-control chart-selector">
+        <option value="_ValueEarningsR12Chart" @if (chart2Selection == "_ValueEarningsR12Chart") { <text> selected</text>}>Värdering & Resultat R12</option>
+        <option value="_InvestmentGradeR12" @if (chart2Selection == "_InvestmentGradeR12") { <text> selected</text>}>Investeringsbetyg R12</option>
+        <option value="_ReturnOnEquityR12Chart" @if (chart2Selection == "_ReturnOnEquityR12Chart") { <text> selected</text>}>Avkastning på eget kapital R12 (E/Eq)</option>
+        <option value="_ReturnOnTotalCapitalR12Chart" @if (chart2Selection == "_ReturnOnTotalCapitalR12Chart") { <text> selected</text>}>Avkastning på totalt kapital R12 (E/A)</option>
+        <option value="_YieldR12Chart" @if (chart2Selection == "_YieldR12Chart") { <text> selected</text>}>E/P R12</option>
+        <option value="_PER12Chart" @if (chart2Selection == "_PER12Chart") { <text> selected</text>}>P/E R12</option>
+        <option value="_RevenueR12NetIncomeR12" @if (chart2Selection == "_RevenueR12NetIncomeR12") { <text> selected</text>}>Omsätting R12 & Resultat R12</option>
+        <option value="_MarginR12" @if (chart2Selection == "_MarginR12") { <text> selected</text>}>Vinstmarginal R12</option>
+        <option value="_RevenueGrowthR12NetIncomeGrowthR12" @if (chart2Selection == "_RevenueGrowthR12NetIncomeGrowthR12") { <text> selected</text>}>Omsättningstillväxt R12 & Resultattillväxt R12</option>
+        <option value="_RevenueNetIncome" @if (chart2Selection == "_RevenueNetIncome") { <text> selected</text>}>Omsätting Kv & Resultat Kv</option>
+        <option value="_Margin" @if (chart2Selection == "_Margin") { <text> selected</text>}>Vinstmarginal Kv</option>
+        <option value="_Solidity" @if (chart2Selection == "_Solidity") { <text> selected</text>}>Soliditet</option>
+        <option value="_StockPriceChart" @if (chart2Selection == "_StockPriceChart") { <text> selected</text>}>Aktiekurs</option>
+
+    </select>
+    <hr />
+    <div id="chart2">
+        @Html.Partial("Charts/" + chart2Selection, Model)
+    </div>
+
+    <select id="selector-chart3" class="form-control chart-selector">
+        <option value="_ValueEarningsR12Chart" @if (chart3Selection == "_ValueEarningsR12Chart") { <text> selected</text>}>Värdering & Resultat R12</option>
+        <option value="_InvestmentGradeR12" @if (chart3Selection == "_InvestmentGradeR12") { <text> selected</text>}>Investeringsbetyg R12</option>
+        <option value="_ReturnOnEquityR12Chart" @if (chart3Selection == "_ReturnOnEquityR12Chart") { <text> selected</text>}>Avkastning på eget kapital R12 (E/Eq)</option>
+        <option value="_ReturnOnTotalCapitalR12Chart" @if (chart3Selection == "_ReturnOnTotalCapitalR12Chart") { <text> selected</text>}>Avkastning på totalt kapital R12 (E/A)</option>
+        <option value="_YieldR12Chart" @if (chart3Selection == "_YieldR12Chart") { <text> selected</text>}>E/P R12</option>
+        <option value="_PER12Chart" @if (chart3Selection == "_PER12Chart") { <text> selected</text>}>P/E R12</option>
+        <option value="_RevenueR12NetIncomeR12" @if (chart3Selection == "_RevenueR12NetIncomeR12") { <text> selected</text>}>Omsätting R12 & Resultat R12</option>
+        <option value="_MarginR12" @if (chart3Selection == "_MarginR12") { <text> selected</text>}>Vinstmarginal R12</option>
+        <option value="_RevenueGrowthR12NetIncomeGrowthR12" @if (chart3Selection == "_RevenueGrowthR12NetIncomeGrowthR12") { <text> selected</text>}>Omsättningstillväxt R12 & Resultattillväxt R12</option>
+        <option value="_RevenueNetIncome" @if (chart3Selection == "_RevenueNetIncome") { <text> selected</text>}>Omsätting Kv & Resultat Kv</option>
+        <option value="_Margin" @if (chart3Selection == "_Margin") { <text> selected</text>}>Vinstmarginal Kv</option>
+        <option value="_Solidity" @if (chart3Selection == "_Solidity") { <text> selected</text>}>Soliditet</option>
+        <option value="_StockPriceChart" @if (chart3Selection == "_StockPriceChart") { <text> selected</text>}>Aktiekurs</option>
+
+    </select>
+    <hr />
+    <div id="chart3">
+        @Html.Partial("Charts/" + chart3Selection, Model)
+    </div>
+
+    <select id="selector-chart4" class="form-control chart-selector">
+        <option value="_ValueEarningsR12Chart" @if (chart4Selection == "_ValueEarningsR12Chart") { <text> selected</text>}>Värdering & Resultat R12</option>
+        <option value="_InvestmentGradeR12" @if (chart4Selection == "_InvestmentGradeR12") { <text> selected</text>}>Investeringsbetyg R12</option>
+        <option value="_ReturnOnEquityR12Chart" @if (chart4Selection == "_ReturnOnEquityR12Chart") { <text> selected</text>}>Avkastning på eget kapital R12 (E/Eq)</option>
+        <option value="_ReturnOnTotalCapitalR12Chart" @if (chart4Selection == "_ReturnOnTotalCapitalR12Chart") { <text> selected</text>}>Avkastning på totalt kapital R12 (E/A)</option>
+        <option value="_YieldR12Chart" @if (chart4Selection == "_YieldR12Chart") { <text> selected</text>}>E/P R12</option>
+        <option value="_PER12Chart" @if (chart4Selection == "_PER12Chart") { <text> selected</text>}>P/E R12</option>
+        <option value="_RevenueR12NetIncomeR12" @if (chart4Selection == "_RevenueR12NetIncomeR12") { <text> selected</text>}>Omsätting R12 & Resultat R12</option>
+        <option value="_MarginR12" @if (chart4Selection == "_MarginR12") { <text> selected</text>}>Vinstmarginal R12</option>
+        <option value="_RevenueGrowthR12NetIncomeGrowthR12" @if (chart4Selection == "_RevenueGrowthR12NetIncomeGrowthR12") { <text> selected</text>}>Omsättningstillväxt R12 & Resultattillväxt R12</option>
+        <option value="_RevenueNetIncome" @if (chart4Selection == "_RevenueNetIncome") { <text> selected</text>}>Omsätting Kv & Resultat Kv</option>
+        <option value="_Margin" @if (chart4Selection == "_Margin") { <text> selected</text>}>Vinstmarginal Kv</option>
+        <option value="_Solidity" @if (chart4Selection == "_Solidity") { <text> selected</text>}>Soliditet</option>
+        <option value="_StockPriceChart" @if (chart4Selection == "_StockPriceChart") { <text> selected</text>}>Aktiekurs</option>
+
+    </select>
+    <hr />
+    <div id="chart4">
+        @Html.Partial("Charts/" + chart4Selection, Model)
+    </div>
+
+    <select id="selector-chart5" class="form-control chart-selector">
+        <option value="_ValueEarningsR12Chart" @if (chart5Selection == "_ValueEarningsR12Chart") { <text> selected</text>}>Värdering & Resultat R12</option>
+        <option value="_InvestmentGradeR12" @if (chart5Selection == "_InvestmentGradeR12") { <text> selected</text>}>Investeringsbetyg R12</option>
+        <option value="_ReturnOnEquityR12Chart" @if (chart5Selection == "_ReturnOnEquityR12Chart") { <text> selected</text>}>Avkastning på eget kapital R12 (E/Eq)</option>
+        <option value="_ReturnOnTotalCapitalR12Chart" @if (chart5Selection == "_ReturnOnTotalCapitalR12Chart") { <text> selected</text>}>Avkastning på totalt kapital R12 (E/A)</option>
+        <option value="_YieldR12Chart" @if (chart5Selection == "_YieldR12Chart") { <text> selected</text>}>E/P R12</option>
+        <option value="_PER12Chart" @if (chart5Selection == "_PER12Chart") { <text> selected</text>}>P/E R12</option>
+        <option value="_RevenueR12NetIncomeR12" @if (chart5Selection == "_RevenueR12NetIncomeR12") { <text> selected</text>}>Omsätting R12 & Resultat R12</option>
+        <option value="_MarginR12" @if (chart5Selection == "_MarginR12") { <text> selected</text>}>Vinstmarginal R12</option>
+        <option value="_RevenueGrowthR12NetIncomeGrowthR12" @if (chart5Selection == "_RevenueGrowthR12NetIncomeGrowthR12") { <text> selected</text>}>Omsättningstillväxt R12 & Resultattillväxt R12</option>
+        <option value="_RevenueNetIncome" @if (chart5Selection == "_RevenueNetIncome") { <text> selected</text>}>Omsätting Kv & Resultat Kv</option>
+        <option value="_Margin" @if (chart5Selection == "_Margin") { <text> selected</text>}>Vinstmarginal Kv</option>
+        <option value="_Solidity" @if (chart5Selection == "_Solidity") { <text> selected</text>}>Soliditet</option>
+        <option value="_StockPriceChart" @if (chart5Selection == "_StockPriceChart") { <text> selected</text>}>Aktiekurs</option>
+
+    </select>
+    <hr />
+    <div id="chart5">
+        @Html.Partial("Charts/" + chart5Selection, Model)
+    </div>
+
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/js/Company/details.js")
+}
+@section Styles{
+    @Styles.Render("~/Content/themes/base/css")
+}

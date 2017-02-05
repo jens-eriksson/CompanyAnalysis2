@@ -1,0 +1,53 @@
+﻿@using CompanyAnalysis2.Model
+@model Company
+@{
+    string divId = Guid.NewGuid().ToString();   
+ }
+<div id="@divId" class="content"></div>
+<script type="text/javascript">
+    // Create and populate the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Perioder');
+    data.addColumn('number', 'Omsättningstillväxt R12 (%)');
+    data.addColumn('number', 'Resultattillväxt R12 (%)');
+    @foreach (Period period in ViewBag.Periods)
+    {
+        if (Model.Reports.Where(r => r.Period.Id == period.Id).Count() > 0)
+        {
+            Report report = Model.Reports.Where(r => r.Period.Id == period.Id).First();
+
+            var revenueGrowthR12 = "null";
+            if (report.RevenueGrowthR12.HasValue)
+            {
+                revenueGrowthR12 = (report.RevenueGrowthR12.Value * 100).ToString("#0.00").Replace(",", ".");
+            }
+
+            var netIncomeGrowthR12 = "null";
+            if (report.NetIncomeGrowthR12.HasValue)
+            {
+                netIncomeGrowthR12 = (report.NetIncomeGrowthR12.Value * 100).ToString("#0.00").Replace(",", ".");
+            }
+            
+            <text>data.addRow(['</text>@report.Period.Name<text>', </text>@revenueGrowthR12<text>, </text>@netIncomeGrowthR12<text>]);</text>
+        }
+        else
+        {
+             <text>data.addRow(['</text>@period.Name<text>', null, null]);</text>
+        }
+    }
+
+    // Create and draw the visualization.
+    var revenueNetIncomeGrowthR12Chart = new google.visualization.ColumnChart(document.getElementById('@divId'));
+    revenueNetIncomeGrowthR12Chart.draw(data, {
+        chartArea:{left:70, top:50, width:"80%", height:"70%"},
+        curveType: "none",
+        height: 350,
+        hAxis: { slantedText: true, showTextEvery: 1, },
+        series: {
+            0: { color: 'blue' },
+            1: { color: 'green'}
+        },
+        legend: {position: 'top'}
+    });
+
+</script>

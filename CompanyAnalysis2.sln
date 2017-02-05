@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyAnalysis2.WindowsCli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyAnalysis2.Calculations", "CompanyAnalysis2.Calculations\CompanyAnalysis2.Calculations.csproj", "{90A703C6-A03C-4439-87D6-599812830B28}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompanyAnalysis2.WebApp", "CompanyAnalysis2.WebApp\CompanyAnalysis2.WebApp.csproj", "{3A2E9878-F14E-4980-8548-8934B5D7413C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{90A703C6-A03C-4439-87D6-599812830B28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{90A703C6-A03C-4439-87D6-599812830B28}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{90A703C6-A03C-4439-87D6-599812830B28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A2E9878-F14E-4980-8548-8934B5D7413C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A2E9878-F14E-4980-8548-8934B5D7413C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A2E9878-F14E-4980-8548-8934B5D7413C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A2E9878-F14E-4980-8548-8934B5D7413C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

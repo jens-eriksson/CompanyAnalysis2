@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "Bolagsanalys | Registera";
+}
+@model CompanyAnalysis2.WebApp.ViewModels.RegisterViewModel
+
+<form id="register" action="register" method="post" class="loginForm">
+    <h1>Registera ny användare</h1>
+    <div class="loginBox">
+        Förnamn*<br />
+        <input id="FirstName" name="FirstName" type="text" class="textbox"  value="@Model.FirstName" /><br />
+        Efternamn*<br />
+        <input id="LastName" name="LastName" type="text" class="textbox" value="@Model.LastName" /><br />
+        E-postadress*<br />
+        <input id="Email" name="Email" type="text" class="textbox" value="@Model.Email" /><br />
+        Lösenord*<br />
+        <input id="Password" name="Password" type="password" class="textbox" /><br />
+        Upprepa lösenord*<br />
+        <input id="Password2" name="Password2" type="password" class="textbox" /><br />
+        <input class="float-right" type="submit" value="Registera" />
+         <br /><br />
+    </div>
+    <br />
+        @Html.ValidationSummary()
+</form>

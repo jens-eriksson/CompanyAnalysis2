@@ -11,13 +11,10 @@ namespace CompanyAnalysis2.Model
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class UserSetting
     {
-        [Key]
         public int UserId { get; set; }
-        [Key]
         public string Name { get; set; }
         public string Value { get; set; }
     

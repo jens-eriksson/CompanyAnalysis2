@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html lang="sv">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/images/favicon.ico" type="image/x-icon">
+    <title>@ViewBag.Title</title>
+    <!-- Bootstrap Core CSS -->
+    <link href="@Url.Content("~/css/bootstrap.css")" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="@Url.Content("~/css/jquery-ui-datepicker.css")" rel="stylesheet">
+    <link href="@Url.Content("~/css/stylish-portfolio.css")" rel="stylesheet">
+    <link href="@Url.Content("~/css/site.css")" rel="stylesheet">
+
+    @RenderSection("styles", required: false)
+
+    <!-- Custom Fonts -->
+    <link href="@Url.Content("~/font-awesome-4.1.0/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+    <script type="text/javascript" src="~/js/modernizr-2.6.2.js"></script>
+    <script type="text/javascript" src="~/js/jquery-1.11.0.js"></script>
+    <script type="text/javascript" src="~/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="~/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="~/js/bootstrap.js"></script>
+    <script type="text/javascript" src="~/js/site.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+        google.load("visualization", "1", { packages: ["corechart"] });
+    </script>
+</head>
+<body>
+    <!-- Navigation -->
+    <a id="menu-toggle" href="#" class="btn btn-dark btn-lg toggle"><i class="fa fa-bars"></i></a>
+    <nav id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+            <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
+            <li class="sidebar-brand">
+                <img src="@Url.Content("~/images/chart32.png")" alt="logo" height="24" /><span style="color:whitesmoke; margin-left:10px;">BOLAGSANALYS</span> 
+            </li>
+            <li>
+                <a href="@Url.Action("index", "company")"><span class="glyphicon glyphicon-home" style="margin-right:15px;"></span>HEM</a>
+            </li>
+            @if (Request.IsAuthenticated)
+            {
+                <li>
+                    <a href="@Url.Action("signout", "account")"><span class="glyphicon glyphicon-log-out" style="margin-right:15px;"></span>LOGGA UT...</a>
+                </li>
+            }
+            else
+            {
+                <li>
+                    <a href="@Url.Action("login", "account")"><span class="glyphicon glyphicon-log-in" style="margin-right:15px;"></span>LOGGA IN..</a>
+                </li>
+            }
+            
+        </ul>
+    </nav>
+    @RenderBody()
+    <script type="text/javascript">
+        var host = '@Url.Content("~")';
+        var isTouchDevice = 'ontouchstart' in document.documentElement;
+    </script>
+ 
+    @RenderSection("scripts", required: false)
+    
+    @RenderSection("Modals", required: false)
+
+    @Html.Partial("_NewCompanyModal")
+</body>
+
+</html>

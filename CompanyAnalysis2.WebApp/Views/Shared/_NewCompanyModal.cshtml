@@ -1,0 +1,42 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="modal-new-company" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <form action="~/company/create" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Lägg till bolag</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group">
+                        <span class="input-group-addon">Namn</span>
+                        <input id="modal-new-company-name" class="form-control" type="text" name="Name" required />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Valuta</span>
+                        <input class="form-control" type="text" name="Currency" required />
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon">Ticker</span>
+                        <input class="form-control" type="text" name="GoogleFinanceSymbol" required />
+                    </div>
+                    <br />
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-primary" type="submit" value="Lägg till" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.new-company-link').click(function () {
+            $('#modal-new-company').modal('show');
+            $('#modal-new-company-name').focus();
+        });
+    });
+</script>

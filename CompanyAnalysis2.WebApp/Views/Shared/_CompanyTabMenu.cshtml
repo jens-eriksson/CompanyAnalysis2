@@ -1,0 +1,13 @@
+﻿@model CompanyAnalysis2.Model.Company
+
+<div class="container">
+    <ul class="nav nav-tabs">
+        <li role="presentation" class="@if(ViewBag.SelectedTab == "details"){<text>active</text>}"><a href="@Url.Action("details", "company", new { id = Model.Id })">ÖVERSIKT</a></li>
+        <li role="presentation" class="@if(ViewBag.SelectedTab == "reports"){<text>active</text>}"><a href="@Url.Action("index", "report", new { cid = Model.Id })">RAPPORTER</a></li>
+        <li role="presentation" class="@if(ViewBag.SelectedTab == "stockprices"){<text>active</text>}"><a href="@Url.Action("index", "stockprice", new { cid = Model.Id })">AKTIEKURSER</a></li>
+        
+        <li role="presentation" class="@if(ViewBag.SelectedTab == "importlog"){<text>active</text>} pull-right"><a href="@Url.Action("importlog", "company", new { id = Model.Id })">IMPORT</a></li>
+        <li role="presentation" class="@if(ViewBag.SelectedTab == "edit"){<text>active</text>} pull-right"><a href="@Url.Action("edit", "company", new { id = Model.Id })">BOLAGSUPPGIFTER</a></li>
+    </ul>
+    <br />
+</div>

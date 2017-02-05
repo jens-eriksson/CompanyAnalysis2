@@ -75,7 +75,8 @@
     <Compile Include="FinancialIndicator.cs">
       <DependentUpon>CompanyAnalysis2.tt</DependentUpon>
     </Compile>
-    <Compile Include="Metadata\StockQuote.cs" />
+    <Compile Include="Model\Company.cs" />
+    <Compile Include="Model\StockQuote.cs" />
     <Compile Include="Metadata\StockQuoteMetadata.cs" />
     <Compile Include="Period.cs">
       <DependentUpon>CompanyAnalysis2.tt</DependentUpon>

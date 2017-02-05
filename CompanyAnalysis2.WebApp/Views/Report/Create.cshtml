@@ -1,0 +1,137 @@
+﻿@model CompanyAnalysis2.Model.Report
+
+@{
+    ViewBag.Title = "Bolagsanalys | " + Model.Company.Name;
+}
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">@Model.Company.Name.ToUpper()</li>
+        </ul>
+    </div>
+</nav>
+@Html.Partial("_CompanyTabMenu", Model.Company)
+<div class="container">
+    <h2>@Model.Period.Name.ToUpper()</h2>
+    <form action="@Url.Action("create")" method="post">
+        <input type="hidden" id="CompanyId" name="CompanyId" value="@Model.CompanyId" />
+        <input type="hidden" id="PeriodId" name="PeriodId" value="@Model.PeriodId" />
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <h3>RESULTATRÄKNING</h3>
+                <div class="editor-label">
+                    <b>Omsättning (milj)</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="Revenue" name="Revenue" type="text" required value="@Model.Revenue" />
+                </div>
+                <br />
+                <div class="editor-label">
+                    <b>Resultat (milj)</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="NetIncome" name="NetIncome" type="text" required value="@Model.NetIncome" />
+                </div>
+
+            </div>
+
+            <div class="col-lg-4 col-md-6">
+                <h3>BALANSRÄKNING</h3>
+                <div class="editor-label">
+                    <b>Tillgångar (milj)</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="Assets" name="Assets" type="text" required value="@Model.Assets" />
+                </div>
+                <br />
+                <div class="editor-label">
+                    <b>Eget kapital (milj)</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="Equity" name="Equity" type="text" required value="@Model.Equity" />
+                </div>
+            </div>
+            <!--
+            <div class="col-lg-4 col-md-6">
+                <h3>KASSAFLÖDE</h3>
+                <div class="editor-label">
+                    <b>Operativt kassaflöde</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="OperatingCashFlow" name="OperatingCashFlow" type="text"  />
+                </div>
+                <div class="editor-label">
+                    <b>Investeringar</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="InvestingingCashFlow" name="InvestingingCashFlow" type="text"  />
+                </div>
+                <div class="editor-label">
+                    <b>Finansiering</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="FinancingCashFlow" name="FinancingCashFlow" type="text"  />
+                </div>
+                <div class="editor-label">
+                    <b>Utdelning</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="Dividend" name="Dividend" type="text"  />
+                </div>
+                <div class="editor-label">
+                    <b>Summa förändring av kassan</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="NetChangeInCash" name="NetChangeInCash" type="text"  />
+                </div>
+            </div>
+            -->
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-lg-4 col-md-6">
+                <h3>VÄRDERING</h3>
+                <div class="editor-label">
+                    <b>Antal aktier</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="NumberOfShares" name="NumberOfShares" type="text" required value="@Model.NumberOfShares" />
+                </div>
+                <br />
+                <div class="editor-label">
+                    <b>Aktiekurs @Model.Period.EndDate.Value.ToShortDateString()</b>
+                </div>
+                <div class="editor-field">
+                    @if (Model.StockPrice.HasValue == false)
+                    { <input id="stockprice" class="form-control" name="stockprice" type="text" required value="" /> }
+                    else
+                    { <input id="stockprice" class="form-control" name="stockprice" type="text" required value="@Model.StockPrice.Value" /> }
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <h3>LEDNING</h3>
+                <div class="editor-label">
+                    <b>VD</b>
+                </div>
+                <div class="editor-field">
+                    <input class="form-control" id="CEO" name="CEO" type="text" value="@Model.CEO"  />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <br />
+            <div class="col-lg-4 col-md-6">
+                <input class="btn btn-default" type="submit" value="Lägg upp" />
+                <a href="@Url.Action("index", new { cid = Model.Company.Id})" class="btn btn-default">Avbryt</a>
+            </div>
+        </div>
+    </form>
+    <br /><br />
+    <span class="text-danger">
+        @Html.ValidationSummary()
+    </span>
+        
+</div>

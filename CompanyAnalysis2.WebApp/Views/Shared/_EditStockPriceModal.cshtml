@@ -1,0 +1,68 @@
+﻿<!-- Modal -->
+<div class="modal fade" id="modal-edit-stockprice" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <form action="~/stockprice/update" method="post">
+            <input id="view-fromdate" type="hidden" name="viewFromDate" value="" />
+            <input id="view-todate" type="hidden" name="viewToDate" value="" />
+            <input id="companyid" type="hidden" name="price.CompanyId" value="" />
+            <input id="price-date" type="hidden" name="price.Date" value="" />
+            
+            <div class="modal-content">
+               <div class="modal-body">
+                   <ul class="nav nav-tabs" role="tablist">
+                       <li role="presentation" class="active"><a href="#price-tab" aria-controls="price-tab" role="tab" data-toggle="tab">KURS</a></li>
+                       <li role="presentation"><a href="#numberofshares-tab" aria-controls="numberofshares-tab" role="tab" data-toggle="tab">ANTAL AKTIER</a></li>
+                   </ul>
+                    <br />
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="price-tab">
+                            <div class="input-group">
+                                <span class="input-group-addon">Kurs</span>
+                                <input id="modal-edit-stockprice-price" class="form-control" type="text" name="price.Price" required />
+                            </div>
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon">Från</span>
+                                <input class="form-control datepicker datepicker-modal" type="text" name="priceFromDate" required />
+                                <span class="input-group-addon">Till</span>
+                                <input class="form-control datepicker datepicker-modal" type="text" name="priceToDate" required />
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="numberofshares-tab">
+                            <div class="input-group">
+                                <span class="input-group-addon">Antal aktier</span>
+                                <input id="modal-edit-stockprice-numberofshares" class="form-control" type="text" name="price.NumberOfShares" required />
+                            </div>
+                            <br />
+                            <div class="input-group">
+                                <span class="input-group-addon">Från</span>
+                                <input class="form-control datepicker datepicker-modal" type="text" name="numberOfSharesFromDate" required />
+                                <span class="input-group-addon">Till</span>
+                                <input class="form-control datepicker datepicker-modal" type="text" name="numberOfSharesToDate" required />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input class="btn btn-primary" type="submit" value="Uppdatera" />
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.edit-stockprice-link').click(function () {
+            $('.datepicker-modal').val($(this).data('date'));
+            $('#modal-edit-stockprice-numberofshares').val($(this).data('numberofshares'));
+            $('#modal-edit-stockprice-price').val($(this).data('price'));
+            $('#companyid').val($(this).data('companyid'));
+            $('#price-date').val($(this).data('date'));
+            $('#view-fromdate').val($('#from-date').val());
+            $('#view-todate').val($('#to-date').val());
+            $('#modal-edit-stockprice').modal('show');
+        });
+    });
+</script>

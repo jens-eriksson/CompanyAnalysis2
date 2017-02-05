@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Bolagsanalys | " + Model.Name;
+}
+@model CompanyAnalysis2.Model.Company
+
+<a class="home" href="@Url.Action("index", "company")"><img src="@Url.Content("~/images/home24.png")" title="Hem" /></a>
+<h1 class="float-left"><a href="@Url.Action("details", "company", new { id=Model.Id })"> | @Model.Name</a></h1>
+<hr class="clear"/>
+<br />
+@using (Html.BeginForm("Import", "Report", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{ 
+    @Html.Hidden("cid", Model.Id)
+    <p>
+        <input type="file" id="fileUpload" name="fileUpload" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    </p>
+    <p>
+        <input type="submit" value="Importera" />
+    </p> 
+}
+<br /><br />
+<h4>Formatexempel</h4>
+<img src="~/images/report-format.png" alt="format" />
+<p><i>Excel filen måste vara av .xlsx format och innehålla kolumnerna på bilden</i></p>
+<br />
+<hr />
+<a href="@Url.Action("Index", new {cid=Model.Id })"><img src="@Url.Content("~/images/back32.png")" title="Tillbaka" /></a>

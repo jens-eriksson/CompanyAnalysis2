@@ -1,0 +1,48 @@
+﻿@using CompanyAnalysis2.Model
+@model Company
+@{
+    string divId = Guid.NewGuid().ToString();   
+ }
+<div id="@divId" class="content"></div>
+
+<script type="text/javascript">
+    // Create and populate the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Perioder');
+    data.addColumn('number', 'Soliditet (%)');
+    @foreach (Period period in ViewBag.Periods)
+    {
+        if (Model.Reports.Where(r => r.Period.Id == period.Id).Count() > 0)
+        {
+            Report report = Model.Reports.Where(r => r.Period.Id == period.Id).First();
+            var solidity = "null";
+            if (report.Solidity.HasValue)
+            {
+                solidity = (report.Solidity.Value * 100).ToString("#0.00").Replace(",", ".");
+            }
+            
+            <text>data.addRow(['</text>@report.Period.Name<text>', </text>@solidity<text>]);</text>
+        }
+        else
+        {
+             <text>data.addRow(['</text>@period.Name<text>', null]);</text>
+        }
+    }
+
+    // Create and draw the visualization.
+    var solidity = new google.visualization.ColumnChart(document.getElementById('@divId'));
+    solidity.draw(data, {
+        chartArea:{left:70, top:50, width:"80%", height:"70%"},
+        curveType: "none",
+        height: 350,
+        hAxis: { slantedText: true, showTextEvery: 1, },
+        vAxes: {
+            0: { logScale: false, minValue: 0, maxValue: 100 }
+        },
+        series: {
+            0: {color: 'orange' },
+        },
+        legend: {position: 'top'}
+    });
+
+</script>

@@ -11,13 +11,10 @@ namespace CompanyAnalysis2.Model
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class StockQuote
     {
-        [Key]
         public System.DateTime Date { get; set; }
-        [Key]
         public int StockId { get; set; }
         public double Price { get; set; }
         public Nullable<long> NumberOfSharesOutstanding { get; set; }

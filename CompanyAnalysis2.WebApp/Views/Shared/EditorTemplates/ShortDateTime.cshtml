@@ -1,0 +1,11 @@
+﻿@model System.DateTime?
+@{
+    string date = "";
+    if (Model.HasValue)
+    {
+        date = Model.Value.ToShortDateString(); 
+    }
+}
+<input id="@ViewBag.Id" name="@ViewBag.Id" type="text" value="@date" />
+
+

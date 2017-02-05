@@ -1,0 +1,53 @@
+﻿@model CompanyAnalysis2.Model.Company
+
+@{
+    ViewBag.Title = "Bolagsanalys | Nytt bolag";
+}
+
+@if (Request.IsAuthenticated)
+{
+    <input id="Email" value="@ViewBag.App.LoggedOnUser.Email" type="hidden" />
+}
+
+<nav class="navbar navbar-inverse">
+    <div class="container">
+        <ul class="nav navbar-inverse navbar-nav navbar-left">
+            @Html.Partial("_BrandMenu")
+            <li class="navbar-text">NYTT BOLAG</li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 col-md-6 col-sm-12">
+            <form action="~/company/create" method="post">
+                <div class="input-group">
+                    <span class="input-group-addon">Namn</span>
+                    <input class="form-control" type="text" name="Name" required />
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Valuta</span>
+                    <input class="form-control" type="text" name="Currency" required />
+                </div>
+                <br />
+                <div class="input-group">
+                    <span class="input-group-addon">Ticker</span>
+                    <input class="form-control" type="text" name="GoogleFinanceSymbol" required />
+                </div>
+                <br />
+                <button class="btn btn-default" type="submit">Spara</button>
+                <a class="btn btn-default" href="~/company/index">Avbryt</a> 
+            </form>
+
+            @section Scripts {
+                @Scripts.Render("~/bundles/jqueryui")
+                @Scripts.Render("~/Scripts/Company/create.js")
+            }
+            @section Styles{
+                @Styles.Render("~/Content/themes/base/css")
+            }
+        </div>
+    </div>
+</div>
