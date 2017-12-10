@@ -144,6 +144,7 @@
     <Content Include="images\up.png" />
     <Content Include="js\Account\login.js" />
     <Content Include="js\bootstrap.js" />
+    <Content Include="js\bootstrap3-typeahead.min.js" />
     <Content Include="js\Company\create.js" />
     <Content Include="js\Company\details.js" />
     <Content Include="js\Company\edit.js" />

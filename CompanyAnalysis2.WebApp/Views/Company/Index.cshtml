@@ -7,7 +7,7 @@
 
 @if (Request.IsAuthenticated)
 {
-    <input id="Email" value="@ViewBag.App.LoggedOnUser.Email" type="hidden" />
+    <input id="Email" value="@Model.LoggedOnUser.Email" type="hidden" />
 }
 
 <nav class="navbar navbar-inverse">
@@ -22,17 +22,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-
-            @if (Request.IsAuthenticated)
-            {
-                <div class="pull-right">
-                    <select id="filter" class="form-control">
-                        <option value="all" @if (ViewBag.CompanyListFilter == "all") { <text> selected</text>}>Visa alla</option>
-                        <option value="stared" @if (ViewBag.CompanyListFilter == "stared") { <text> selected</text>}>Visa mina favoriter</option>
-                    </select>
-                </div>
-            }
-
+            <input type="text" class="form-control input-lg" data-provide="typeahead" placeholder="Search...">
             <table class="table table-condensed table-hover">
                 <thead>
                     <tr>

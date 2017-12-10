@@ -9,38 +9,56 @@ namespace CompanyAnalysis2.Calculations
 {
     public class FinancialIndicatorsCalculations
     {
-        public void Calculate(int companyId)
+        private CompanyAnalysis2Context _ctx;
+
+        public FinancialIndicatorsCalculations(CompanyAnalysis2Context context)
         {
-            CompanyAnalysis2Context ctx = new CompanyAnalysis2Context();
-            foreach (Period period in ctx.Periods.OrderBy(p => p.EndDate))
-                Calculate(companyId, period.Id);
+            _ctx = context;
+        }
+        public void Calculate(int companyId)
+        {  
+            foreach (Period period in _ctx.Periods.OrderBy(p => p.EndDate))
+                CreateOrUpdateIndicator(companyId, period.Id);
+            _ctx.SaveChanges();
         }
         public void Calculate(int companyId, int periodId)
         {
-            CompanyAnalysis2Context ctx = new CompanyAnalysis2Context();
-            Company company = ctx.Companies.Find(companyId);
-            Period period = ctx.Periods.Find(periodId);
+            CreateOrUpdateIndicator(companyId, periodId);
+            _ctx.SaveChanges();
+        }
+
+        private void CreateOrUpdateIndicator(int companyId, int periodId)
+        {
+            Company company = _ctx.Companies.Find(companyId);
+            Period period = _ctx.Periods.Find(periodId);
             Report report = company.Reports.Where(r => r.Period.Id == periodId).FirstOrDefault();
+            FinancialIndicator financialIndicator = company.FinancialIndicators.Where(c => c.Period.Id == periodId).FirstOrDefault();
+
             if (company == null || report == null || period == null)
                 return;
+            if (report.Revenue == 0 && report.NetIncome == 0 && report.Assets == 0 && report.Equity == 0)
+            {
+                if (financialIndicator != null)
+                    company.FinancialIndicators.Remove(financialIndicator);
+                return;
+            }
 
             double marketCap = 0;
 
             foreach (Stock stock in company.Stocks)
             {
-                StockQuote quote = ctx.StockQuotes.Find(period.EndDate, stock.Id);
+                StockQuote quote = _ctx.StockQuotes.Find(period.EndDate, stock.Id);
                 if (quote == null)
                     return;
                 if (quote.NumberOfSharesOutstanding.HasValue == false)
                     return;
-                marketCap += quote.NumberOfSharesOutstanding.Value * quote.Price;
+                marketCap += quote.NumberOfSharesOutstanding.Value * quote.Price / 1000000;
             }
-                        
-            FinancialIndicator financialIndicator = company.FinancialIndicators.Where(c => c.Period.Id == periodId).FirstOrDefault();
+            
             if (financialIndicator == null)
             {
                 financialIndicator = new FinancialIndicator();
-                ctx.FinancialIndicators.Add(financialIndicator);
+                _ctx.FinancialIndicators.Add(financialIndicator);
             }
             financialIndicator.PeriodId = periodId;
             financialIndicator.CompanyId = companyId;
@@ -51,8 +69,25 @@ namespace CompanyAnalysis2.Calculations
             financialIndicator.Revenue = report.Revenue;
             financialIndicator.Assets = report.Assets;
             financialIndicator.Equity = report.Equity;
-            financialIndicator.ProfitMargin = report.NetIncome / report.Revenue;
-            financialIndicator.Solidity = report.Equity / report.Assets;
+            if (report.Revenue == 0)
+                financialIndicator.ProfitMargin = 0;
+            else
+                financialIndicator.ProfitMargin = report.NetIncome / report.Revenue;
+            if (report.Assets == 0)
+                financialIndicator.Solidity = 0;
+            else
+                financialIndicator.Solidity = report.Equity / report.Assets;
+
+            financialIndicator.RevenueTTM = 0;
+            financialIndicator.NetIncomeTTM = 0;
+            financialIndicator.ProfitMarginTTM = 0;
+            financialIndicator.ReturnOnAssetsTTM = 0;
+            financialIndicator.ReturnOnEquityTTM = 0;
+            financialIndicator.PeTTM = 0;
+            financialIndicator.InvestmentGradeTTM = 0;
+            financialIndicator.EqutiyGrowthTTM = 0;
+            financialIndicator.NetIncomeGrowthTTM = 0;
+            financialIndicator.RevenueGrowthTTM = 0;
 
             //Calculate TTM numbers
             List<Report> reports = company.Reports.Where(r => r.Period.EndDate <= period.EndDate).ToList();
@@ -60,27 +95,36 @@ namespace CompanyAnalysis2.Calculations
             {
                 financialIndicator.RevenueTTM = reports.OrderByDescending(r => r.Period.StartDate).Take(4).Sum(r => r.Revenue);
                 financialIndicator.NetIncomeTTM = reports.OrderByDescending(r => r.Period.StartDate).Take(4).Sum(r => r.NetIncome);
-                financialIndicator.ProfitMarginTTM = financialIndicator.NetIncomeTTM / financialIndicator.RevenueTTM;
-                financialIndicator.ReturnOnAssetsTTM = financialIndicator.NetIncomeTTM / financialIndicator.Assets;
-                financialIndicator.ReturnOnEquityTTM = financialIndicator.NetIncomeTTM / financialIndicator.Equity;
-                financialIndicator.PeTTM = financialIndicator.MarketCap / financialIndicator.NetIncomeTTM;
+                if (financialIndicator.RevenueTTM == 0)
+                    financialIndicator.ProfitMarginTTM = 0;
+                else
+                    financialIndicator.ProfitMarginTTM = financialIndicator.NetIncomeTTM / financialIndicator.RevenueTTM;
+                if (financialIndicator.Assets == 0)
+                    financialIndicator.ReturnOnAssetsTTM = 0;
+                else
+                    financialIndicator.ReturnOnAssetsTTM = financialIndicator.NetIncomeTTM / financialIndicator.Assets;
+                if (financialIndicator.Equity == 0)
+                    financialIndicator.ReturnOnEquityTTM = 0;
+                else
+                    financialIndicator.ReturnOnEquityTTM = financialIndicator.NetIncomeTTM / financialIndicator.Equity;
+                if (financialIndicator.NetIncomeTTM == 0)
+                    financialIndicator.PeTTM = 0;
+                else
+                    financialIndicator.PeTTM = financialIndicator.MarketCap / financialIndicator.NetIncomeTTM;
                 financialIndicator.InvestmentGradeTTM = financialIndicator.ReturnOnAssetsTTM * financialIndicator.PeTTM * 10;
 
                 //Calculate growth numbers
-                FinancialIndicator previousYear = ctx.FinancialIndicators.Where(fi => fi.Period.EndDate < period.EndDate).OrderByDescending(fi => fi.Period.EndDate).Take(4).OrderBy(fi => fi.Period.EndDate).FirstOrDefault();
-                if (previousYear != null)
+                FinancialIndicator previousPeroid = _ctx.FinancialIndicators.Where(fi => fi.CompanyId == companyId && fi.Period.EndDate < period.EndDate).OrderByDescending(fi => fi.Period.EndDate).FirstOrDefault();
+                if (previousPeroid != null)
                 {
-                    if (previousYear.Equity.HasValue)
-                        financialIndicator.EqutiyGrowthTTM = financialIndicator.Equity / previousYear.Equity - 1;
-                    if (previousYear.NetIncomeTTM.HasValue)
-                        financialIndicator.NetIncomeGrowthTTM = financialIndicator.NetIncomeTTM / previousYear.NetIncomeTTM - 1;
-                    if (previousYear.RevenueTTM.HasValue)
-                        financialIndicator.RevenueGrowthTTM = financialIndicator.RevenueTTM / previousYear.RevenueTTM - 1;
+                    if (previousPeroid.Equity != 0)
+                        financialIndicator.EqutiyGrowthTTM = financialIndicator.Equity / previousPeroid.Equity - 1;
+                    if (previousPeroid.NetIncomeTTM != 0)
+                        financialIndicator.NetIncomeGrowthTTM = financialIndicator.NetIncomeTTM / previousPeroid.NetIncomeTTM - 1;
+                    if (previousPeroid.RevenueTTM != 0)
+                        financialIndicator.RevenueGrowthTTM = financialIndicator.RevenueTTM / previousPeroid.RevenueTTM - 1;
                 }
             }
-
-            ctx.SaveChanges();
         }
-
     }
 }

@@ -17,10 +17,10 @@ namespace CompanyAnalysis2.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.CreatedReports = new HashSet<Report>();
+            this.Estimates = new HashSet<Estimate>();
+            this.Reports = new HashSet<Report>();
             this.UserSettings = new HashSet<UserSetting>();
             this.StaredCompanies = new HashSet<Company>();
-            this.Estimates = new HashSet<Estimate>();
         }
     
         public int Id { get; set; }
@@ -31,12 +31,12 @@ namespace CompanyAnalysis2.Model
         public string MobilePhone { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Report> CreatedReports { get; set; }
+        public virtual ICollection<Estimate> Estimates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Report> Reports { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<UserSetting> UserSettings { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Company> StaredCompanies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Estimate> Estimates { get; set; }
     }
 }

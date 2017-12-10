@@ -203,7 +203,7 @@ namespace CompanyAnalysis2.OData.Controllers
                 return NotFound();
             }
 
-            FinancialIndicatorsCalculations calc = new FinancialIndicatorsCalculations();
+            FinancialIndicatorsCalculations calc = new FinancialIndicatorsCalculations(db);
             calc.Calculate(companyId);
             return StatusCode(HttpStatusCode.NoContent);
         }
@@ -234,7 +234,7 @@ namespace CompanyAnalysis2.OData.Controllers
                 return NotFound();
             }
 
-            FinancialIndicatorsCalculations calc = new FinancialIndicatorsCalculations();
+            FinancialIndicatorsCalculations calc = new FinancialIndicatorsCalculations(db);
             calc.Calculate(companyId, periodId);
             return StatusCode(HttpStatusCode.NoContent);
         }

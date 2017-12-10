@@ -18,14 +18,14 @@ namespace CompanyAnalysis2.Model
         public int CompanyId { get; set; }
         public int PeroidId { get; set; }
         public int UserId { get; set; }
-        public Nullable<double> Revenue { get; set; }
-        public Nullable<double> NetIncome { get; set; }
-        public Nullable<double> Assets { get; set; }
-        public Nullable<double> Equity { get; set; }
-        public Nullable<System.DateTime> Timestamp { get; set; }
+        public double Revenue { get; set; }
+        public double NetIncome { get; set; }
+        public double Assets { get; set; }
+        public double Equity { get; set; }
+        public System.DateTime Timestamp { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual Period Period { get; set; }
         public virtual User User { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

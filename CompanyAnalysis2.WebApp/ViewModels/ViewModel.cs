@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Web;
+using System.Linq;
 using CompanyAnalysis2.Model;
 
 
@@ -18,9 +19,8 @@ namespace CompanyAnalysis2.WebApp.ViewModels
 
         public ViewModel()
         {
-            int userId = Convert.ToInt32(HttpContext.Current.User.Identity.Name);
             CompanyAnalysis2Context ctx = new CompanyAnalysis2Context();
-            loggedOnUser = ctx.Users.Find(userId);
+            loggedOnUser = ctx.Users.FirstOrDefault(u => u.Email == HttpContext.Current.User.Identity.Name);
         }
     }
 }

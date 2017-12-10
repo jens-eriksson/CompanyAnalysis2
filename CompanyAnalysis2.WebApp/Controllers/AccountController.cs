@@ -43,7 +43,7 @@ namespace CompanyAnalysis2.WebApp.Controllers
                 {
                     if (user.Password == viewModel.Password)
                     {
-                        FormsAuthentication.SetAuthCookie(user.Id.ToString(), viewModel.RememberMe);
+                        FormsAuthentication.SetAuthCookie(user.Email, viewModel.RememberMe);
                         return RedirectToAction("index", "company");
                     }
                     else

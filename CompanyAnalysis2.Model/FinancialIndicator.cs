@@ -17,25 +17,25 @@ namespace CompanyAnalysis2.Model
         public int Id { get; set; }
         public int PeriodId { get; set; }
         public int CompanyId { get; set; }
-        public Nullable<double> ProfitMargin { get; set; }
-        public Nullable<double> Solidity { get; set; }
-        public Nullable<double> NetIncomeTTM { get; set; }
-        public Nullable<double> RevenueTTM { get; set; }
-        public Nullable<double> ProfitMarginTTM { get; set; }
-        public Nullable<double> PeTTM { get; set; }
-        public Nullable<double> ReturnOnAssetsTTM { get; set; }
-        public Nullable<double> ReturnOnEquityTTM { get; set; }
-        public Nullable<double> InvestmentGradeTTM { get; set; }
-        public Nullable<double> EqutiyGrowthTTM { get; set; }
-        public Nullable<double> NetIncomeGrowthTTM { get; set; }
-        public Nullable<double> RevenueGrowthTTM { get; set; }
-        public Nullable<double> Revenue { get; set; }
-        public Nullable<double> NetIncome { get; set; }
-        public Nullable<double> Assets { get; set; }
-        public Nullable<double> Equity { get; set; }
-        public Nullable<double> MarketCap { get; set; }
+        public double Revenue { get; set; }
+        public double NetIncome { get; set; }
+        public double Assets { get; set; }
+        public double Equity { get; set; }
+        public double ProfitMargin { get; set; }
+        public double Solidity { get; set; }
+        public double NetIncomeTTM { get; set; }
+        public double RevenueTTM { get; set; }
+        public double ProfitMarginTTM { get; set; }
+        public double PeTTM { get; set; }
+        public double ReturnOnAssetsTTM { get; set; }
+        public double ReturnOnEquityTTM { get; set; }
+        public double EqutiyGrowthTTM { get; set; }
+        public double NetIncomeGrowthTTM { get; set; }
+        public double RevenueGrowthTTM { get; set; }
+        public double InvestmentGradeTTM { get; set; }
+        public double MarketCap { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual Period Period { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

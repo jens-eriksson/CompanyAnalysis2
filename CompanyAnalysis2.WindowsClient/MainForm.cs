@@ -22,12 +22,20 @@ namespace CompanyAnalysis2.WindowsClient
         public void Populate()
         {
             statusLabelLoggedOnUser.Text = Program.LoggedOnUser.FirstName + " " + Program.LoggedOnUser.LastName; 
-            companyPickerUserControl.Populate(Program.Companies);
+            companyPickerUserControl.Populate(Program.Context.Companies.Where(c => c.Hidden == false).ToList());
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void reloadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Cursor.Current = Cursors.WaitCursor;
+            Program.Context = new CompanyAnalysis2Context();
+            Populate();
+            Cursor.Current = Cursors.Default;
         }
     }
 }

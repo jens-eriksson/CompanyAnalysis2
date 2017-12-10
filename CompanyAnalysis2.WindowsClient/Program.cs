@@ -10,10 +10,8 @@ namespace CompanyAnalysis2.WindowsClient
 {
     static class Program
     {
-        public static List<Period> Periods;
-        public static List<Company> Companies;
-        public static User LoggedOnUser;
-        public static CompanyAnalysis2Container DataContainer;
+        public static User LoggedOnUser { get; set; }
+        public static CompanyAnalysis2Context Context { get; set; }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -22,23 +20,21 @@ namespace CompanyAnalysis2.WindowsClient
         {            
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
             SplashForm splash = new SplashForm();
             splash.Show();
             Application.DoEvents();
-            DataContainer = new CompanyAnalysis2Container(new Uri(ConfigurationManager.AppSettings["ODataUri"]));
-            splash.SetMessage("Loading data...");
-            LoadData();
+            splash.SetMessage("Initializing...");
+            
+            Context = new CompanyAnalysis2Context();
+            LoggedOnUser = Context.Users.Find(1);
+            Initilizer.CheckAndCreateNewPeriods();
+
             MainForm mainForm = new MainForm();
             mainForm.Populate();
+            
             splash.Close();
             Application.Run(mainForm);
-        }
-
-        static void LoadData()
-        {
-            LoggedOnUser = DataContainer.Users.ByKey(1).Expand("StaredCompanies").GetValue();
-            Periods = DataContainer.Periods.Execute().ToList();
-            Companies = DataContainer.Companies.Execute().ToList();
         }
     }
 }

@@ -25,8 +25,8 @@ namespace CompanyAnalysis2.Model
         public int CompanyId { get; set; }
         public bool IsDefault { get; set; }
     
-        public virtual Company Company { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<StockQuote> StockQuotes { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

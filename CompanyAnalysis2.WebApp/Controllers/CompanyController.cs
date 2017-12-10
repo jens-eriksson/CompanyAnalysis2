@@ -74,9 +74,9 @@ namespace CompanyAnalysis2.WebApp.Controllers
                     context.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                else if (context.Companies.Where(c => c.Hidden && c.GoogleFinanceSymbol == company.GoogleFinanceSymbol).Count() > 0)
+                else if (context.Companies.Where(c => c.Hidden && c.YahooFinanceSymbol == company.YahooFinanceSymbol).Count() > 0)
                 {
-                    existingCompany = context.Companies.Where(c => c.GoogleFinanceSymbol == company.GoogleFinanceSymbol).First();
+                    existingCompany = context.Companies.Where(c => c.YahooFinanceSymbol == company.YahooFinanceSymbol).First();
                     existingCompany.Name = company.Name;
                     existingCompany.Hidden = false;
                     context.SaveChanges();
@@ -127,7 +127,7 @@ namespace CompanyAnalysis2.WebApp.Controllers
                 CompanyAnalysis2Context context = db;
                 Company current = context.Companies.Find(company.Id);
                 current.Name = company.Name;
-                current.GoogleFinanceSymbol = company.GoogleFinanceSymbol;
+                current.YahooFinanceSymbol = company.YahooFinanceSymbol;
                 context.SaveChanges();
                 ViewBag.ShowSaveConfirmation = true;
                 ViewBag.SelectedTab = "edit";

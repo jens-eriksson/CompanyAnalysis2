@@ -14,19 +14,28 @@ namespace CompanyAnalysis2.Model
     
     public partial class Report
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Report()
+        {
+            this.Revenue = 0D;
+            this.NetIncome = 0D;
+            this.Assets = 0D;
+            this.Equity = 0D;
+        }
+    
         public int Id { get; set; }
-        public Nullable<int> PeriodId { get; set; }
+        public int PeriodId { get; set; }
         public int CompanyId { get; set; }
-        public Nullable<double> Revenue { get; set; }
-        public Nullable<double> NetIncome { get; set; }
-        public Nullable<double> Assets { get; set; }
-        public Nullable<double> Equity { get; set; }
+        public double Revenue { get; set; }
+        public double NetIncome { get; set; }
+        public double Assets { get; set; }
+        public double Equity { get; set; }
         public string CEO { get; set; }
         public bool Overwrite { get; set; }
-        public Nullable<int> CreatedByUserId { get; set; }
+        public int CreatedByUserId { get; set; }
     
-        public virtual Company Company { get; set; }
         public virtual Period Period { get; set; }
-        public virtual User CreatedBy { get; set; }
+        public virtual User User { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

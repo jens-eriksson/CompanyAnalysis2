@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Calculations.cs" />
     <Compile Include="Company.cs">
       <DependentUpon>CompanyAnalysis2.tt</DependentUpon>
     </Compile>
@@ -99,32 +100,30 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <EntityDeploy Include="CompanyAnalysis2.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>CompanyAnalysis2.Designer.cs</LastGenOutput>
     </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.Config" />
     <None Include="CompanyAnalysis2.edmx.diagram">
       <DependentUpon>CompanyAnalysis2.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="CompanyAnalysis2.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CompanyAnalysis2.Context.cs</LastGenOutput>
       <DependentUpon>CompanyAnalysis2.edmx</DependentUpon>
+      <LastGenOutput>CompanyAnalysis2.Context.cs</LastGenOutput>
     </Content>
     <Content Include="CompanyAnalysis2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CompanyAnalysis2.edmx</DependentUpon>
       <LastGenOutput>CompanyAnalysis2.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
